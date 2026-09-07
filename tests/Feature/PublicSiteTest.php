@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Mail\ContactFormSubmitted;
+use App\Mail\YouthApplicationConfirmation;
 use App\Mail\YouthApplicationSubmitted;
 use App\Models\ContactMessage;
 use App\Models\FootballMatch;
@@ -176,6 +177,25 @@ class PublicSiteTest extends TestCase
         ])->assertRedirect('/sr/omladinci')->assertSessionHasErrors(['birth_year', 'consent']);
 
         $this->assertSame(0, YouthApplication::count());
+    }
+
+    public function test_youth_application_email_is_optional(): void
+    {
+        Mail::fake();
+        Setting::set('youth_email', 'omladinci@example.test');
+
+        $this->from('/sr/omladinci')->post('/upis', [
+            'child_name' => 'Petar Petrović',
+            'birth_year' => now()->year - 8,
+            'parent_name' => 'Marko Petrović',
+            'phone' => '+381 60 123 4567',
+            'email' => '',
+            'consent' => '1',
+        ])->assertRedirect('/sr/omladinci#upis')->assertSessionHas('enrol_success');
+
+        $this->assertDatabaseHas('youth_applications', ['child_name' => 'Petar Petrović', 'email' => null]);
+        Mail::assertSent(YouthApplicationSubmitted::class);
+        Mail::assertNotSent(YouthApplicationConfirmation::class);
     }
 
     public function test_youth_application_honeypot_blocks_bots_silently(): void

@@ -25,7 +25,7 @@ class YouthApplicationInfolist
                     ->components([
                         TextEntry::make('parent_name')->label('Ime i prezime'),
                         TextEntry::make('phone')->label('Telefon')->url(fn (YouthApplication $r) => 'tel:' . preg_replace('/[^+\d]/', '', $r->phone)),
-                        TextEntry::make('email')->label('Imejl')->url(fn (YouthApplication $r) => 'mailto:' . $r->email),
+                        TextEntry::make('email')->label('Imejl')->placeholder('—')->url(fn (YouthApplication $r) => $r->email ? 'mailto:' . $r->email : null),
                     ]),
                 Section::make('Napomena')
                     ->components([
