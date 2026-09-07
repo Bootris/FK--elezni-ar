@@ -63,6 +63,6 @@ jobs:
         env:
           DEPLOY_URL: ${{ secrets.DEPLOY_URL }}
         run: |
-          code=$(curl -sS -o /dev/null -w '%{http_code}' --max-time 30 "$DEPLOY_URL")
-          echo "GET $DEPLOY_URL -> $code"
+          code=$(curl -sSL -o /dev/null -w '%{http_code}' --max-time 30 "$DEPLOY_URL")
+          echo "GET $DEPLOY_URL (uz redirect) -> $code"
           [ "$code" = 200 ]
