@@ -25,7 +25,7 @@
                             @endif
                             <p style="margin:0 0 4px;"><strong>Roditelj / staratelj:</strong> {{ $application->parent_name }}</p>
                             <p style="margin:0 0 4px;"><strong>Telefon:</strong> <a href="tel:{{ preg_replace('/[^+\d]/', '', $application->phone) }}" style="color:#1b2740;">{{ $application->phone }}</a></p>
-                            <p style="margin:0 0 4px;"><strong>Imejl:</strong> <a href="mailto:{{ $application->email }}" style="color:#1b2740;">{{ $application->email }}</a></p>
+                            @if ($application->email)<p style="margin:0 0 4px;"><strong>Imejl:</strong> <a href="mailto:{{ $application->email }}" style="color:#1b2740;">{{ $application->email }}</a></p>@endif
                             @if ($application->note)
                                 <div style="margin-top:20px;padding:16px 20px;background:#f6f7fa;border-left:3px solid #d7262d;border-radius:6px;white-space:pre-line;">{{ $application->note }}</div>
                             @endif

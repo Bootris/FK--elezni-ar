@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Mail\ContactFormSubmitted;
+use App\Mail\YouthApplicationConfirmation;
 use App\Mail\YouthApplicationSubmitted;
 use App\Models\ContactMessage;
 use App\Models\FootballMatch;
@@ -122,6 +123,19 @@ class PublicSiteTest extends TestCase
         $this->get('/video')->assertOk()->assertSee('Test vest');
     }
 
+    public function test_ticker_shows_pinned_posts_and_falls_back_to_newest(): void
+    {
+        $this->publishedPost(['title' => 'Najnovija vest', 'slug' => 'najnovija']);
+        $older = $this->publishedPost(['title' => 'Pinovana vest', 'slug' => 'pinovana', 'published_at' => now()->subDays(3)]);
+
+        // The contact page has no news cards, so any title there comes from the ticker.
+        $this->get('/sr/kontakt')->assertSee('Najnovija vest')->assertSee('Pinovana vest');
+
+        $older->update(['is_pinned' => true]);
+
+        $this->get('/sr/kontakt')->assertSee('Pinovana vest')->assertDontSee('Najnovija vest');
+    }
+
     public function test_draft_post_returns_404(): void
     {
         $this->publishedPost(['slug' => 'skriveni', 'status' => 'draft']);
@@ -176,6 +190,25 @@ class PublicSiteTest extends TestCase
         ])->assertRedirect('/sr/omladinci')->assertSessionHasErrors(['birth_year', 'consent']);
 
         $this->assertSame(0, YouthApplication::count());
+    }
+
+    public function test_youth_application_email_is_optional(): void
+    {
+        Mail::fake();
+        Setting::set('youth_email', 'omladinci@example.test');
+
+        $this->from('/sr/omladinci')->post('/upis', [
+            'child_name' => 'Petar Petrović',
+            'birth_year' => now()->year - 8,
+            'parent_name' => 'Marko Petrović',
+            'phone' => '+381 60 123 4567',
+            'email' => '',
+            'consent' => '1',
+        ])->assertRedirect('/sr/omladinci#upis')->assertSessionHas('enrol_success');
+
+        $this->assertDatabaseHas('youth_applications', ['child_name' => 'Petar Petrović', 'email' => null]);
+        Mail::assertSent(YouthApplicationSubmitted::class);
+        Mail::assertNotSent(YouthApplicationConfirmation::class);
     }
 
     public function test_youth_application_honeypot_blocks_bots_silently(): void

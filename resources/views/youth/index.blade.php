@@ -214,8 +214,8 @@
                             @error('phone')<p class="mt-1 text-xs text-red-600">{{ $message }}</p>@enderror
                         </div>
                         <div>
-                            <label for="e-email" class="field-label">{{ __('club.youth.form.email') }} *</label>
-                            <input id="e-email" type="email" name="email" value="{{ old('email') }}" required class="field">
+                            <label for="e-email" class="field-label">{{ __('club.youth.form.email') }}</label>
+                            <input id="e-email" type="email" name="email" value="{{ old('email') }}" class="field">
                             @error('email')<p class="mt-1 text-xs text-red-600">{{ $message }}</p>@enderror
                         </div>
                         <div class="sm:col-span-2">

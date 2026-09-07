@@ -45,4 +45,15 @@ return [
     */
     'categories' => ['Prvi tim', 'Omladinci', 'Klub', 'Utakmice'],
 
+    /*
+    | League data source — Fudbalski savez Niša. `php artisan fsn:sync` (scheduled
+    | daily) pulls the standings and the first team's fixtures/results from this
+    | page; rows can still be edited by hand in the admin in between.
+    */
+    'fsn' => [
+        'url' => env('FSN_LEAGUE_URL', 'https://fsn.org.rs/druga-niska-liga'),
+        'league_name' => env('FSN_LEAGUE_NAME', 'Druga niška liga'),
+        'competition' => 'first',
+    ],
+
 ];

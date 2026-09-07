@@ -58,7 +58,8 @@ class ViewYouthApplication extends ViewRecord
                 ->icon(Heroicon::OutlinedEnvelope)
                 ->url(fn (): string => 'mailto:' . $this->record->email
                     . '?subject=' . rawurlencode('Upis u omladinsku školu — ' . $this->record->child_name))
-                ->openUrlInNewTab(),
+                ->openUrlInNewTab()
+                ->visible(fn (): bool => filled($this->record->email)),
             DeleteAction::make(),
         ];
     }

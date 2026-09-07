@@ -36,6 +36,9 @@ Club: `Player`, `StaffMember` (department: first_team / youth / club, optional
 `youth_selection_id`), `YouthSelection` (age groups), `FootballMatch` (table
 `matches`), `StandingRow` (league table rows, `competition` key, default `first`),
 `Photo` (gallery albums), `YouthApplication` (enrolment inbox with status).
+`StandingRow` and first-team `FootballMatch` rows are fed by `fsn:sync`
+(`app/Console/Commands/FsnSync.php` + `app/Services/FsnLeagueParser.php`, source in
+`config('site.fsn')`), scheduled weekly (Sunday 23:00) in `routes/console.php`.
 
 Migrations: `2026_07_20_…site_content_tables` (core) and `2026_09_05_…club_tables`.
 Seeding: `DatabaseSeeder` (admin, categories, settings) + `ZeleznicarDemoSeeder`
@@ -48,6 +51,7 @@ Seeding: `DatabaseSeeder` (admin, categories, settings) + `ZeleznicarDemoSeeder`
 php artisan migrate --seed # admin user, categories, settings (+ demo when SEED_DEMO=true)
 php artisan test           # feature tests (SQLite :memory:)
 ./check-backend.sh         # smoke-test every public route, exit 0 if healthy
+php artisan fsn:sync       # league table + first-team fixtures from fsn.org.rs (--dry-run to preview)
 npm run build              # Vite/Tailwind build (required before serving/testing views)
 ```
 

@@ -27,9 +27,15 @@
     $enrolUrl = route('youth.index', $locale) . '#upis';
     $supportUrl = route('support.index', $locale);
 
-    $tickerHeadlines = Cache::remember('site_ticker', 600, fn () =>
-        Post::published()->orderByDesc('published_at')->take(6)->pluck('title')->all()
-    );
+    // Pinned posts feed the ticker; with nothing pinned the newest headlines scroll instead.
+    $tickerHeadlines = Cache::remember('site_ticker', 600, function () {
+        $pinned = Post::published()->where('is_pinned', true)->orderByDesc('published_at')->take(6)->pluck('title');
+
+        return ($pinned->isNotEmpty()
+            ? $pinned
+            : Post::published()->orderByDesc('published_at')->take(6)->pluck('title')
+        )->all();
+    });
 
     $socials = array_filter([
         'YouTube' => $site['youtube'] ?? null,

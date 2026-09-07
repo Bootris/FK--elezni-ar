@@ -55,7 +55,7 @@ class YouthController extends Controller
             'birth_year' => 'required|integer|min:' . (now()->year - 21) . '|max:' . now()->year,
             'parent_name' => 'required|string|max:255',
             'phone' => 'required|string|max:50',
-            'email' => 'required|email|max:255',
+            'email' => 'nullable|email|max:255',
             'youth_selection_id' => 'nullable|exists:youth_selections,id',
             'note' => 'nullable|string|max:2000',
             'consent' => 'accepted',
@@ -73,7 +73,9 @@ class YouthController extends Controller
             if ($notifyTo) {
                 Mail::to($notifyTo)->send(new YouthApplicationSubmitted($application));
             }
-            Mail::to($application->email)->send(new YouthApplicationConfirmation($application));
+            if ($application->email) {
+                Mail::to($application->email)->send(new YouthApplicationConfirmation($application));
+            }
         } catch (\Throwable $e) {
             // The application is stored in the admin either way.
             report($e);
