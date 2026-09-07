@@ -10,6 +10,7 @@ use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
+use Filament\Tables\Filters\TernaryFilter;
 use Filament\Tables\Table;
 
 class PostsTable
@@ -49,6 +50,9 @@ class PostsTable
                 IconColumn::make('show_on_home')
                     ->label('Početna')
                     ->boolean(),
+                IconColumn::make('is_pinned')
+                    ->label('Traka')
+                    ->boolean(),
             ])
             ->filters([
                 SelectFilter::make('status')
@@ -60,6 +64,8 @@ class PostsTable
                 SelectFilter::make('category')
                     ->label('Kategorija')
                     ->relationship('category', 'name'),
+                TernaryFilter::make('is_pinned')
+                    ->label('U traci'),
             ])
             ->recordActions([
                 EditAction::make(),

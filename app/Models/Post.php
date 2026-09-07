@@ -12,7 +12,7 @@ class Post extends Model
 {
     protected $fillable = [
         'title', 'slug', 'excerpt', 'body', 'category_id', 'user_id', 'author_name',
-        'status', 'published_at', 'featured_image', 'video_url', 'show_on_home',
+        'status', 'published_at', 'featured_image', 'video_url', 'show_on_home', 'is_pinned',
         'seo_title', 'seo_description',
     ];
 
@@ -26,7 +26,10 @@ class Post extends Model
 
     protected static function booted(): void
     {
-        $clear = fn () => Cache::forget('site_latest_posts');
+        $clear = function (): void {
+            Cache::forget('site_latest_posts');
+            Cache::forget('site_ticker');
+        };
         static::saved($clear);
         static::deleted($clear);
     }

@@ -123,6 +123,19 @@ class PublicSiteTest extends TestCase
         $this->get('/video')->assertOk()->assertSee('Test vest');
     }
 
+    public function test_ticker_shows_pinned_posts_and_falls_back_to_newest(): void
+    {
+        $this->publishedPost(['title' => 'Najnovija vest', 'slug' => 'najnovija']);
+        $older = $this->publishedPost(['title' => 'Pinovana vest', 'slug' => 'pinovana', 'published_at' => now()->subDays(3)]);
+
+        // The contact page has no news cards, so any title there comes from the ticker.
+        $this->get('/sr/kontakt')->assertSee('Najnovija vest')->assertSee('Pinovana vest');
+
+        $older->update(['is_pinned' => true]);
+
+        $this->get('/sr/kontakt')->assertSee('Pinovana vest')->assertDontSee('Najnovija vest');
+    }
+
     public function test_draft_post_returns_404(): void
     {
         $this->publishedPost(['slug' => 'skriveni', 'status' => 'draft']);

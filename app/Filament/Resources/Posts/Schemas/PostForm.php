@@ -78,6 +78,9 @@ class PostForm
                             ->native(false),
                         Toggle::make('show_on_home')
                             ->label('Istakni na početnoj (glavna vest)'),
+                        Toggle::make('is_pinned')
+                            ->label('Pinovana vest (traka na vrhu sajta)')
+                            ->helperText('Pinovane vesti se vrte u traci na vrhu svake strane. Ako nijedna nije pinovana, vrte se najnovije.'),
                     ]),
 
                 Section::make('Mediji')
