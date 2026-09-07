@@ -25,7 +25,7 @@
                 <span class="score text-5xl sm:text-6xl">{{ $match->home_score ?? 0 }}:{{ $match->away_score ?? 0 }}</span>
             @else
                 <span class="score text-4xl sm:text-5xl">{{ $match->kickoff_at->format('H:i') }}</span>
-                <span class="mt-1 block text-[11px] font-semibold uppercase tracking-wider {{ $dark ? 'text-navy-300' : 'text-ink-400' }}">{{ $match->kickoff_at->format('D d.m.') }}</span>
+                <span class="mt-1 block text-[11px] font-semibold uppercase tracking-wider {{ $dark ? 'text-navy-300' : 'text-ink-400' }}">{{ rtrim($match->kickoff_at->translatedFormat('D'), '.') }} {{ $match->kickoff_at->format('d.m.') }}</span>
             @endif
         </div>
 

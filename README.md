@@ -48,7 +48,7 @@ php artisan test            # feature testovi (SQLite u memoriji)
 | Prvi tim | **Igrači** | broj, pozicija, datum rođenja, visina, fotografija, kapiten, „iz omladinske škole“, redosled prevlačenjem |
 | | **Stručni štab i treneri** | prvi tim / omladinci (vezano za selekciju) / uprava, licenca |
 | | **Utakmice i rezultati** | protivnik, dom/gost, takmičenje, kolo, termin, rezultat, status, veza na vest-izveštaj |
-| | **Tabela** | redovi tabele — brojevi se menjaju direktno u tabeli, naš klub istaknut |
+| | **Tabela** | redovi tabele — brojevi se menjaju direktno u tabeli, naš klub istaknut; puni se automatski sa sajta FS Niš (vidi ispod) |
 | Omladinci | **Selekcije** | U-7 … U-19: godišta, opis, termini i mesto treninga, „prima nove igrače“ |
 | Prijave | **Upis omladinaca** | prijave sa forme; status (nova / kontaktirani / upisan / odbijena), interna beleška, poziv / imejl jednim klikom, badge sa brojem novih |
 | | **Poruke sa sajta** | kontakt forma |
@@ -56,6 +56,19 @@ php artisan test            # feature testovi (SQLite u memoriji)
 
 Dashboard prikazuje: nove prijave, nepročitane poruke, sledeću utakmicu, broj
 vesti, igrača i selekcija.
+
+### Tabela i raspored sa sajta FS Niš
+
+```bash
+php artisan fsn:sync            # tabela lige + utakmice prvog tima sa fsn.org.rs
+php artisan fsn:sync --dry-run  # samo prikaži šta bi bilo upisano
+```
+
+Izvor je `FSN_LEAGUE_URL` u `.env` (podrazumevano Druga niška liga). Komanda je
+zakazana nedeljom u 23:00 u `routes/console.php`; na serveru treba cron
+`* * * * * php artisan schedule:run`. Redovi tabele koji više nisu na sajtu se
+brišu, utakmice se prepoznaju po kolu, a status koji je ručno postavljen u
+adminu (npr. odložena) ostaje dok FSN ne objavi rezultat.
 
 ## Struktura sajta
 
