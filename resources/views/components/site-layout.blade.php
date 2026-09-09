@@ -16,6 +16,7 @@
     $ogImage = $image ?? url($logoUrl);
 
     $navLinks = [
+        ['href' => $homeUrl, 'label' => __('club.nav.home')],
         ['href' => route('news.index'), 'label' => __('club.nav.news')],
         ['href' => route('video.index'), 'label' => __('club.nav.video')],
         ['href' => route('team.index', $locale), 'label' => __('club.nav.first_team')],
@@ -44,7 +45,10 @@
         'TikTok' => $site['tiktok'] ?? null,
     ]);
 
-    $isActive = fn (string $href) => str_starts_with(url()->current(), $href);
+    // Home matches only on the exact URL — every locale-prefixed page starts with it.
+    $isActive = fn (string $href) => $href === $homeUrl
+        ? rtrim(url()->current(), '/') === rtrim($homeUrl, '/')
+        : str_starts_with(url()->current(), $href);
 @endphp
 <!DOCTYPE html>
 <html lang="{{ $locale }}" class="scroll-pt-24">

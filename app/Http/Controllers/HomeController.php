@@ -37,7 +37,10 @@ class HomeController extends Controller
         $lastMatch = FootballMatch::firstTeam()->finished()->first();
         $standings = StandingRow::table()->get();
 
-        $players = Player::visible()->take(6)->get();
+        // A different six on every visit, still listed in line order (GK → DF → MF → FW).
+        $players = Player::where('visible', true)->inRandomOrder()->take(6)->get()
+            ->sortBy(fn (Player $p) => [['GK' => 0, 'DF' => 1, 'MF' => 2][$p->position] ?? 3, $p->sort_order])
+            ->values();
         $playerCount = Player::where('visible', true)->count();
         $academyCount = Player::where('visible', true)->where('from_academy', true)->count();
 
