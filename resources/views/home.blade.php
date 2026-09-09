@@ -29,7 +29,7 @@
                     <a href="{{ route('youth.index', $locale) }}#upis" class="btn btn-red whitespace-normal">{{ __('club.cta.enroll_long') }}</a>
                     <a href="{{ route('support.index', $locale) }}" class="btn btn-outline whitespace-normal">{{ __('club.cta.support') }}</a>
                 </div>
-                <div class="mt-10 flex flex-wrap gap-x-10 gap-y-4 border-t border-white/10 pt-6">
+                <div class="mt-16 flex flex-wrap gap-x-10 gap-y-4">
                     <div><span class="score block text-4xl text-gold-400">{{ $site['founded_year'] ?? '1928' }}.</span><span class="text-xs uppercase tracking-wider text-navy-300">{{ __('club.footer.founded') }}</span></div>
                     <div><span class="score block text-4xl">{{ $selections->count() }}</span><span class="text-xs uppercase tracking-wider text-navy-300">{{ __('club.home.youth_selections') }}</span></div>
                     <div><span class="score block text-4xl">{{ $playerCount }}</span><span class="text-xs uppercase tracking-wider text-navy-300">{{ __('club.home.team_players') }}</span></div>
