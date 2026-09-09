@@ -6,6 +6,7 @@ use App\Models\Category;
 use App\Models\FootballMatch;
 use App\Models\Player;
 use App\Models\Post;
+use App\Models\Setting;
 use App\Models\StaffMember;
 use App\Models\StandingRow;
 use App\Models\YouthSelection;
@@ -59,39 +60,41 @@ class ZeleznicarDemoSeeder extends Seeder
 
     private function players(): void
     {
+        // Prvi tim, sezona 2026/27. Potvrđeno sa zvaničnih fotografija: imena,
+        // kapiten (Ignjatović) i golman (Rančić, jedini u golmanskom dresu).
+        // POZICIJE OSTALIH SU PRIVREMENE — raspoređene tako da tim izgleda
+        // normalno na sajtu; klub ih ispravlja u adminu, kao i brojeve dresova
+        // i godišta, koja ovde namerno stoje prazna umesto izmišljena.
         $rows = [
-            // number, name, position, born, height, academy?
-            [1, 'Nikola Stanković', 'GK', '2001-03-14', 191, true],
-            [12, 'Luka Petrović', 'GK', '2005-08-02', 188, true],
-            [2, 'Miloš Jovanović', 'DF', '1998-11-21', 183, false],
-            [4, 'Stefan Ilić', 'DF', '2000-05-09', 186, true],
-            [5, 'Đorđe Mitić', 'DF', '1996-01-30', 189, false],
-            [3, 'Aleksa Đorđević', 'DF', '2003-09-17', 178, true],
-            [15, 'Vuk Ristić', 'DF', '2004-04-25', 181, true],
-            [6, 'Marko Nikolić', 'MF', '1997-07-12', 180, false],
-            [8, 'Filip Stojanović', 'MF', '1999-02-03', 177, true],
-            [10, 'Lazar Cvetković', 'MF', '1995-10-08', 175, false],
-            [14, 'Ognjen Pavlović', 'MF', '2002-12-19', 179, true],
-            [18, 'Andrej Živković', 'MF', '2005-06-11', 174, true],
-            [20, 'Petar Milošević', 'MF', '2003-03-27', 182, false],
-            [7, 'Uroš Stevanović', 'FW', '2000-08-15', 184, true],
-            [9, 'Dušan Kostić', 'FW', '1994-04-04', 187, false],
-            [11, 'Nemanja Živadinović', 'FW', '2002-01-22', 176, true],
-            [17, 'Veljko Todorović', 'FW', '2006-09-30', 180, true],
+            // name, position, captain?
+            ['Aleksa Rančić', 'GK', false],
+            ['Dušan Vasić', 'DF', false],
+            ['Miloš Spasić', 'DF', false],
+            ['Sava Mandić', 'DF', false],
+            ['Valentino Čađanović', 'DF', false],
+            ['Branislav Nikolić', 'DF', false],
+            ['Nemanja Vidojković', 'DF', false],
+            ['Nikola Rakić', 'MF', false],
+            ['Pavle Zlatanović', 'MF', false],
+            ['Boris Bončić', 'MF', false],
+            ['Marko Kostadinović', 'MF', false],
+            ['Filip Stefanović', 'MF', false],
+            ['Aleksandar Ignjatović', 'MF', true],
+            ['Đorđe Stevović', 'MF', false],
+            ['Uroš Antonijević', 'FW', false],
+            ['Đorđe Petrović', 'FW', false],
+            ['Blagoje Toković', 'FW', false],
+            ['Filip Nikolić', 'FW', false],
         ];
 
-        foreach ($rows as $i => [$number, $name, $pos, $born, $height, $academy]) {
+        foreach ($rows as $i => [$name, $pos, $captain]) {
             Player::updateOrCreate(
                 ['slug' => Str::slug($name)],
                 [
                     'name' => $name,
-                    'shirt_number' => $number,
                     'position' => $pos,
                     'nationality' => 'Srbija',
-                    'birth_date' => $born,
-                    'height_cm' => $height,
-                    'from_academy' => $academy,
-                    'is_captain' => $number === 10,
+                    'is_captain' => $captain,
                     'sort_order' => $i,
                 ],
             );
@@ -131,33 +134,28 @@ class ZeleznicarDemoSeeder extends Seeder
 
     private function matches(): void
     {
-        $league = 'Zona Istok';
-        $saturday = now()->startOfWeek()->addDays(5)->setTime(16, 30);
+        // Druga niška liga, kako je objavljeno na fsn.org.rs (stanje 09.09.2026).
+        // Kola koja FSN još nije zakazao namerno nisu ovde — `php artisan fsn:sync`
+        // ih dodaje čim dobiju datum, i upisuje ih po istom ključu (kolo).
+        $league = config('site.fsn.league_name');
+        $stadium = Setting::get('stadium', 'Stadion Železničar, Niš');
 
         $rows = [
-            // days offset from this Saturday, opponent, home?, our, their, status, round
-            [-28, 'Radnički Pirot', true, 2, 1, 'finished', '1. kolo'],
-            [-21, 'Dubočica', false, 0, 0, 'finished', '2. kolo'],
-            [-14, 'Sinđelić Niš', true, 3, 0, 'finished', '3. kolo'],
-            [-7, 'Car Konstantin', false, 1, 2, 'finished', '4. kolo'],
-            [0, 'Timok Zaječar', true, null, null, 'scheduled', '5. kolo'],
-            [7, 'Jedinstvo Bela Palanka', false, null, null, 'scheduled', '6. kolo'],
-            [14, 'Radan Lebane', true, null, null, 'scheduled', '7. kolo'],
-            [21, 'Moravac Mrštane', false, null, null, 'scheduled', '8. kolo'],
+            // round, kickoff, opponent, home?, our, their, status
+            [1, '2026-09-06 11:00', 'Supovac', true, 2, 0, 'finished'],
+            [2, '2026-09-13 16:00', 'Mladost 2025', false, null, null, 'scheduled'],
         ];
 
-        foreach ($rows as [$offset, $opponent, $home, $our, $their, $status, $round]) {
-            $kickoff = $saturday->copy()->addDays($offset);
-
+        foreach ($rows as [$round, $kickoff, $opponent, $home, $our, $their, $status]) {
             FootballMatch::updateOrCreate(
-                ['team_type' => 'first', 'opponent' => $opponent, 'competition' => $league],
+                ['team_type' => 'first', 'competition' => $league, 'round' => "{$round}. kolo"],
                 [
-                    'round' => $round,
                     'kickoff_at' => $kickoff,
+                    'opponent' => $opponent,
                     'is_home' => $home,
                     'our_score' => $our,
                     'their_score' => $their,
-                    'venue' => $home ? 'Stadion Železničar, Niš' : null,
+                    'venue' => $home ? $stadium : null,
                     'status' => $status,
                 ],
             );
@@ -166,29 +164,35 @@ class ZeleznicarDemoSeeder extends Seeder
 
     private function standings(): void
     {
+        // Druga niška liga posle 1. kola (fsn.org.rs, 09.09.2026). FSN ne
+        // objavljuje kolonu forme, pa je ostavljena prazna — isto kao `fsn:sync`.
         $rows = [
-            ['Sinđelić Niš', 4, 3, 1, 0, 9, 3, 'WWDW'],
-            ['Železničar', 4, 2, 1, 1, 6, 3, 'WDWL'],
-            ['Timok Zaječar', 4, 2, 1, 1, 5, 4, 'DWLW'],
-            ['Car Konstantin', 4, 2, 0, 2, 6, 6, 'LWLW'],
-            ['Dubočica', 4, 1, 3, 0, 4, 3, 'DDWD'],
-            ['Radnički Pirot', 4, 1, 2, 1, 5, 5, 'LDDW'],
-            ['Radan Lebane', 4, 1, 1, 2, 3, 5, 'WLLD'],
-            ['Jedinstvo Bela Palanka', 4, 1, 1, 2, 2, 4, 'LDWL'],
-            ['Moravac Mrštane', 4, 0, 2, 2, 2, 6, 'DLDL'],
-            ['Hajduk Veljko', 4, 0, 2, 2, 1, 4, 'LDLD'],
+            // team, played, won, drawn, lost, goals for, goals against
+            ['Jasenovik 2018', 1, 1, 0, 0, 3, 0],
+            ['Spartak', 1, 1, 0, 0, 5, 3],
+            ['Standard 2021', 1, 1, 0, 0, 5, 3],
+            ['Železničar', 1, 1, 0, 0, 2, 0],
+            ['Mladost 2025', 1, 1, 0, 0, 4, 3],
+            ['Mezgraja', 0, 0, 0, 0, 0, 0],
+            ['Mladost DK', 1, 0, 0, 1, 3, 4],
+            ['Vrtište', 1, 0, 0, 1, 3, 5],
+            ['OFU Broj 6 2026', 1, 0, 0, 1, 3, 5],
+            ['Supovac', 1, 0, 0, 1, 0, 2],
+            ['Omladinac', 1, 0, 0, 1, 0, 3],
         ];
 
-        foreach ($rows as $i => [$team, $p, $w, $d, $l, $gf, $ga, $form]) {
+        $club = Setting::get('club_short_name', config('site.short_name'));
+
+        foreach ($rows as $i => [$team, $p, $w, $d, $l, $gf, $ga]) {
             StandingRow::updateOrCreate(
-                ['competition' => 'first', 'team' => $team],
+                ['competition' => config('site.fsn.competition'), 'team' => $team],
                 [
                     'position' => $i + 1,
                     'played' => $p, 'won' => $w, 'drawn' => $d, 'lost' => $l,
                     'goals_for' => $gf, 'goals_against' => $ga,
                     'points' => $w * 3 + $d,
-                    'form' => $form,
-                    'is_club' => $team === 'Železničar',
+                    'form' => null,
+                    'is_club' => $team === $club,
                 ],
             );
         }
@@ -201,16 +205,15 @@ class ZeleznicarDemoSeeder extends Seeder
 
         $posts = [
             [
-                'title' => 'Železničar ubedljiv protiv Sinđelića: 3:0 pred punim tribinama',
+                'title' => 'Pobeda na startu sezone: Železničar 2:0 Supovac',
                 'category' => 'Utakmice',
-                'days' => 2,
+                'days' => 3,
                 'home' => true,
-                'video' => 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
-                'excerpt' => 'Gradski derbi pripao je Železničaru. Dva gola iz prekida i jedan iz kontre za najubedljiviju pobedu sezone.',
+                'excerpt' => 'U 1. kolu Druge niške lige Železničar je na svom terenu savladao Supovac rezultatom 2:0.',
                 'paras' => [
-                    'Pred više od hiljadu gledalaca, Železničar je od prvog minuta preuzeo inicijativu. Vođstvo je stiglo već u 12. minutu nakon kornera, a do poluvremena je Kostić udvostručio prednost.',
-                    'U nastavku je gost pokušao da se vrati, ali je odbrana domaćina, predvođena Mitićem, bila neprobojna. Tačku na utakmicu stavio je devetnaestogodišnji Todorović, još jedan igrač iz naše omladinske škole.',
-                    'Pogledajte najzanimljivije trenutke sa utakmice u video prilogu.',
+                    'Prvo kolo Druge niške lige odigrano je 6. septembra na Stadionu Železničar u Nišu. Naš tim je pobedio Supovac rezultatom 2:0.',
+                    'Sledeći protivnik je Mladost 2025, u gostima, u 2. kolu.',
+                    'Napomena za administratora: ovo je pripremljen tekst — izveštaj sa utakmice, strelce i fotografije dopunite kroz admin.',
                 ],
             ],
             [

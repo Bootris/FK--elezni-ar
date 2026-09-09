@@ -38,8 +38,8 @@ class DatabaseSeeder extends Seeder
             'founded_year' => '1928',
             'city' => 'Niš',
             'stadium' => 'Stadion Železničar, Niš',
-            'season' => '2025/26',
-            'league_name' => 'Zona Istok',
+            'season' => '2026/27',
+            'league_name' => config('site.fsn.league_name'),
 
             'hero_kicker' => 'Fudbalski klub · Niš · od 1928.',
             'hero_title' => 'Železnica ne staje.',
