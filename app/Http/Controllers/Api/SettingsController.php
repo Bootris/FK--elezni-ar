@@ -27,7 +27,7 @@ class SettingsController extends Controller
             'stadium' => $s['stadium'] ?? null,
             'season' => $s['season'] ?? null,
             'league_name' => $s['league_name'] ?? null,
-            'logo_url' => $media($s['logo'] ?? null) ?? url('/images/logo.gif'),
+            'logo_url' => $media($s['logo'] ?? null) ?? url('/images/logo.png'),
             'hero' => [
                 'kicker' => $s['hero_kicker'] ?? null,
                 'title' => $s['hero_title'] ?? null,

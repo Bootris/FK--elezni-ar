@@ -29,11 +29,11 @@ class AdminPanelProvider extends PanelProvider
             ->path(config('site.admin_path'))
             ->login()
             ->brandName(fn (): string => \App\Models\Setting::get('site_name', 'FK Železničar'))
-            ->brandLogo(asset('images/logo.gif'))
+            ->brandLogo(asset('images/logo.png'))
             ->brandLogoHeight('2.5rem')
-            ->favicon(asset('images/logo.gif'))
+            ->favicon(asset('images/logo.png'))
             ->colors([
-                'primary' => Color::hex('#1f2f4f'),
+                'primary' => Color::hex('#1d3967'),
                 'danger' => Color::hex('#d7262d'),
                 'warning' => Color::hex('#c8a04e'),
             ])

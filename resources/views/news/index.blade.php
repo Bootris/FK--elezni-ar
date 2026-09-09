@@ -27,7 +27,7 @@
 
         @if ($posts->isEmpty())
             <div class="mt-14 rounded-sm border-2 border-dashed border-surface-300 p-16 text-center">
-                <img src="{{ asset('images/logo.gif') }}" alt="" class="mx-auto h-14 w-14 opacity-40">
+                <img src="{{ asset('images/logo.png') }}" alt="" class="mx-auto h-14 w-14 opacity-40">
                 <p class="mt-4 text-ink-600">{{ __('club.news.empty') }}</p>
             </div>
         @else

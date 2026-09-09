@@ -35,7 +35,7 @@
                 <div class="mt-8 overflow-hidden rounded-sm border-2 border-navy-900 bg-white">
                     <div class="flex items-center justify-between bg-navy-900 px-5 py-3 text-white">
                         <span class="display text-2xl">{{ $site['site_name'] ?? 'FK Železničar' }}</span>
-                        <img src="{{ asset('images/logo.gif') }}" alt="" class="h-9 w-9">
+                        <img src="{{ asset('images/logo.png') }}" alt="" class="h-9 w-9">
                     </div>
                     <dl class="divide-y divide-surface-300">
                         @foreach ($rows as $key => $value)

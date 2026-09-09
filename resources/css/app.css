@@ -12,15 +12,15 @@
     --font-display: 'Barlow Condensed', 'Barlow', ui-sans-serif, system-ui, sans-serif;
 
     /* Navy — the crest field */
-    --color-navy-950: #0a1020;
-    --color-navy-900: #101a2e;
-    --color-navy-800: #16233d;
-    --color-navy-700: #1f2f4f;
-    --color-navy-600: #2a3f68;
-    --color-navy-500: #3b5385;
-    --color-navy-300: #8b9bc0;
-    --color-navy-200: #b4c0da;
-    --color-navy-100: #d9e0ef;
+    --color-navy-950: #0c1b35;
+    --color-navy-900: #112444;
+    --color-navy-800: #162d54;
+    --color-navy-700: #1d3967;
+    --color-navy-600: #264882;
+    --color-navy-500: #355da2;
+    --color-navy-300: #87a1ce;
+    --color-navy-200: #b5c6e3;
+    --color-navy-100: #dee6f5;
 
     /* Red — the star */
     --color-red-700: #9c161c;
@@ -428,7 +428,7 @@ body {
 .film {
     position: relative;
     isolation: isolate;
-    background: linear-gradient(200deg, #1f2f4f, #0a1020 75%);
+    background: linear-gradient(200deg, #1d3967, #0c1b35 75%);
     overflow: hidden;
 }
 
@@ -460,7 +460,7 @@ body {
     place-items: center;
     border-radius: 9999px;
     border: 1.5px solid rgba(255, 255, 255, 0.5);
-    background: rgba(10, 16, 32, 0.35);
+    background: rgba(12, 27, 53, 0.35);
     backdrop-filter: blur(4px);
     transition: background 0.25s ease, border-color 0.25s ease, transform 0.25s ease;
 }

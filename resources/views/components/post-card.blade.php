@@ -14,7 +14,7 @@
             <img src="{{ $imageUrl }}" alt="{{ $post->title }}" class="h-full w-full object-cover transition duration-500 group-hover:scale-105" loading="lazy">
         @else
             <span class="{{ $film }} absolute inset-0 transition duration-500 group-hover:scale-105"></span>
-            <img src="{{ asset('images/logo.gif') }}" alt="" class="absolute left-1/2 top-1/2 z-[1] h-16 w-16 -translate-x-1/2 -translate-y-1/2 opacity-25" aria-hidden="true">
+            <img src="{{ asset('images/logo.png') }}" alt="" class="absolute left-1/2 top-1/2 z-[1] h-16 w-16 -translate-x-1/2 -translate-y-1/2 opacity-25" aria-hidden="true">
         @endif
 
         @if ($post->category)

@@ -12,7 +12,7 @@
                 <table role="presentation" width="560" cellpadding="0" cellspacing="0"
                     style="max-width:560px;width:100%;background:#ffffff;border-radius:12px;overflow:hidden;border:1px solid #d9dde6;">
                     <tr>
-                        <td style="background:#1b2740;padding:24px 32px;">
+                        <td style="background:#1b3157;padding:24px 32px;">
                             <p style="margin:0;color:#c8a04e;font-size:12px;letter-spacing:2px;text-transform:uppercase;">{{ config('app.name') }}</p>
                             <h1 style="margin:8px 0 0;color:#ffffff;font-size:20px;font-weight:600;">Nova prijava za upis u omladinsku školu</h1>
                         </td>
@@ -24,8 +24,8 @@
                                 <p style="margin:0 0 4px;"><strong>Željena selekcija:</strong> {{ $application->selection->name }}</p>
                             @endif
                             <p style="margin:0 0 4px;"><strong>Roditelj / staratelj:</strong> {{ $application->parent_name }}</p>
-                            <p style="margin:0 0 4px;"><strong>Telefon:</strong> <a href="tel:{{ preg_replace('/[^+\d]/', '', $application->phone) }}" style="color:#1b2740;">{{ $application->phone }}</a></p>
-                            @if ($application->email)<p style="margin:0 0 4px;"><strong>Imejl:</strong> <a href="mailto:{{ $application->email }}" style="color:#1b2740;">{{ $application->email }}</a></p>@endif
+                            <p style="margin:0 0 4px;"><strong>Telefon:</strong> <a href="tel:{{ preg_replace('/[^+\d]/', '', $application->phone) }}" style="color:#1b3157;">{{ $application->phone }}</a></p>
+                            @if ($application->email)<p style="margin:0 0 4px;"><strong>Imejl:</strong> <a href="mailto:{{ $application->email }}" style="color:#1b3157;">{{ $application->email }}</a></p>@endif
                             @if ($application->note)
                                 <div style="margin-top:20px;padding:16px 20px;background:#f6f7fa;border-left:3px solid #d7262d;border-radius:6px;white-space:pre-line;">{{ $application->note }}</div>
                             @endif

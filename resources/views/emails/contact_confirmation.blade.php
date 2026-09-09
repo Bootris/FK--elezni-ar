@@ -12,7 +12,7 @@
                 <table role="presentation" width="560" cellpadding="0" cellspacing="0"
                     style="max-width:560px;width:100%;background:#ffffff;border-radius:12px;overflow:hidden;border:1px solid #d9dde6;">
                     <tr>
-                        <td style="background:#1b2740;padding:24px 32px;">
+                        <td style="background:#1b3157;padding:24px 32px;">
                             <p style="margin:0;color:#c8a04e;font-size:12px;letter-spacing:2px;text-transform:uppercase;">
                                 {{ config('app.name') }}
                             </p>

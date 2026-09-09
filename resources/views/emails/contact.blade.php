@@ -12,7 +12,7 @@
                 <table role="presentation" width="560" cellpadding="0" cellspacing="0"
                     style="max-width:560px;width:100%;background:#ffffff;border-radius:12px;overflow:hidden;border:1px solid #d9dde6;">
                     <tr>
-                        <td style="background:#1b2740;padding:24px 32px;">
+                        <td style="background:#1b3157;padding:24px 32px;">
                             <p style="margin:0;color:#c8a04e;font-size:12px;letter-spacing:2px;text-transform:uppercase;">
                                 {{ config('app.name') }}
                             </p>
@@ -25,7 +25,7 @@
                         <td style="padding:28px 32px;color:#33414f;font-size:14px;line-height:1.7;">
                             <p style="margin:0 0 4px;"><strong>Ime:</strong> {{ $contactMessage->name }}</p>
                             <p style="margin:0 0 4px;"><strong>Email:</strong>
-                                <a href="mailto:{{ $contactMessage->email }}" style="color:#1b2740;">{{ $contactMessage->email }}</a>
+                                <a href="mailto:{{ $contactMessage->email }}" style="color:#1b3157;">{{ $contactMessage->email }}</a>
                             </p>
                             @if ($contactMessage->phone)
                                 <p style="margin:0 0 4px;"><strong>Telefon:</strong> {{ $contactMessage->phone }}</p>

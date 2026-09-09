@@ -12,7 +12,7 @@
     $pageDescription = $description ?? ($site['seo_description'] ?? __('club.meta.description'));
     $locale = app()->getLocale();
     $homeUrl = url($locale);
-    $logoUrl = !empty($site['logo']) ? Storage::disk('public')->url($site['logo']) : asset('images/logo.gif');
+    $logoUrl = !empty($site['logo']) ? Storage::disk('public')->url($site['logo']) : asset('images/logo.png');
     $ogImage = $image ?? url($logoUrl);
 
     $navLinks = [
@@ -54,7 +54,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ $pageTitle }}</title>
     <meta name="description" content="{{ $pageDescription }}">
-    <meta name="theme-color" content="#101a2e">
+    <meta name="theme-color" content="#112444">
     <meta property="og:title" content="{{ $pageTitle }}">
     <meta property="og:description" content="{{ $pageDescription }}">
     <meta property="og:type" content="website">
