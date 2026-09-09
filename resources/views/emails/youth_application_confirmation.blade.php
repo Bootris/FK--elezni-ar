@@ -20,7 +20,7 @@
                     <tr>
                         <td style="padding:28px 32px;color:#2a3242;font-size:14px;line-height:1.7;">
                             <p style="margin:0 0 12px;">Primili smo prijavu za <strong>{{ $application->child_name }}</strong> ({{ $application->birth_year }}. godište). Naš trener će vas pozvati na broj {{ $application->phone }} i dogovoriti prvi, probni trening.</p>
-                            <p style="margin:0 0 12px;">Za prvi trening nije potrebna oprema — dovoljne su patike i dobra volja.</p>
+                            <p style="margin:0 0 12px;">Za prvi trening nije potrebna oprema, dovoljne su patike i dobra volja.</p>
                             @if (!empty($site['youth_phone']))
                                 <p style="margin:0;">Ako želite, pozovite nas i vi: <a href="tel:{{ preg_replace('/[^+\d]/', '', $site['youth_phone']) }}" style="color:#1b2740;">{{ $site['youth_phone'] }}</a></p>
                             @endif

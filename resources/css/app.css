@@ -320,10 +320,59 @@ body {
     line-height: 0.8;
     letter-spacing: -0.02em;
     color: transparent;
-    -webkit-text-stroke: 1.5px rgba(255, 255, 255, 0.08);
+    /* Outline only: no fill inside the letters, just a slightly whiter line. */
+    -webkit-text-stroke: 2px rgba(255, 255, 255, 0.22);
     user-select: none;
     pointer-events: none;
     white-space: nowrap;
+}
+
+@media (max-width: 640px) {
+    .wordmark-ghost {
+        -webkit-text-stroke-width: 1.5px;
+    }
+}
+
+/* Club crest: a soft drop shadow lifts the shield off the navy, with only a
+   hairline of white tracing its edge so it does not read as a sticker. The
+   shadows follow the alpha edge of the image (a border would box the <img>). */
+.crest {
+    filter:
+        drop-shadow(0 0 1px rgba(255, 255, 255, 0.95))
+        drop-shadow(0 0 2.5px rgba(255, 255, 255, 0.5))
+        drop-shadow(0 1px 2px rgba(0, 0, 0, 0.45))
+        drop-shadow(0 4px 9px rgba(0, 0, 0, 0.55));
+}
+
+/* Horizontal scroller that keeps its scrollbar out of the way (scoreboards
+   with long club names on narrow screens). */
+.scroll-x {
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    -webkit-overflow-scrolling: touch;
+}
+
+.scroll-x::-webkit-scrollbar {
+    display: none;
+}
+
+/* app.js flags the edges that still hide content; fade them so the swipe is
+   discoverable. Works on any background because it masks the content itself. */
+.scroll-x.sx-end {
+    -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 2.75rem), transparent);
+    mask-image: linear-gradient(to right, #000 calc(100% - 2.75rem), transparent);
+}
+
+.scroll-x.sx-start {
+    -webkit-mask-image: linear-gradient(to left, #000 calc(100% - 2.75rem), transparent);
+    mask-image: linear-gradient(to left, #000 calc(100% - 2.75rem), transparent);
+}
+
+.scroll-x.sx-start.sx-end {
+    -webkit-mask-image: linear-gradient(to right, transparent, #000 2.75rem, #000 calc(100% - 2.75rem), transparent);
+    mask-image: linear-gradient(to right, transparent, #000 2.75rem, #000 calc(100% - 2.75rem), transparent);
 }
 
 /* Diagonal top edge for sections that "cut" into the previous one */

@@ -3,7 +3,7 @@
 return [
 
     'meta' => [
-        'description' => 'FK Železničar Niš — official club website. News, first team, youth academy, enrolment for new players and supporting the club.',
+        'description' => 'FK Železničar Niš, the official club website. News, first team, youth academy, enrolment for new players and supporting the club.',
     ],
 
     'nav' => [
@@ -75,7 +75,7 @@ return [
         'video_title' => 'Video',
         'team_kicker' => 'First team',
         'team_title' => 'The team that wears the crest.',
-        'team_text' => 'Železničar seniors — players who grew up in our academy and those who came to strengthen it.',
+        'team_text' => 'Železničar seniors: players who grew up in our academy and those who came to strengthen it.',
         'team_link' => 'Full squad, staff and fixtures',
         'team_players' => 'players in the squad',
         'team_academy' => 'from our academy',
@@ -87,10 +87,10 @@ return [
         'youth_age' => 'ages',
         'enroll_kicker' => 'Enrolment open',
         'enroll_title' => 'Enrol your child today. The first session is free.',
-        'enroll_text' => 'Signing up takes less than a minute. A coach calls you back to arrange a trial session — no strings attached.',
+        'enroll_text' => 'Signing up takes less than a minute. A coach calls you back to arrange a trial session, no strings attached.',
         'support_kicker' => 'Support the club',
         'support_title' => 'A club lives through its people.',
-        'support_text' => 'Every payment goes into youth work, equipment and competitions. No middlemen — straight to the club account.',
+        'support_text' => 'Every payment goes into youth work, equipment and competitions. No middlemen, straight to the club account.',
         'social_title' => 'Follow Železničar',
     ],
 
@@ -135,21 +135,22 @@ return [
         'upcoming_title' => 'Youth fixtures',
         'steps_title' => 'How enrolment works',
         'steps' => [
-            ['Sign up', 'Fill in the form below — the child\'s name, year of birth and your contact. Under a minute.'],
+            ['Sign up', 'Fill in the form below: the child\'s name, year of birth and your contact. Under a minute.'],
             ['We call you', 'The age-group coach calls you to arrange a trial session.'],
             ['Trial session', 'The first session is free and without obligation. Trainers and goodwill are enough.'],
             ['Welcome', 'If your child enjoys it, you enrol and they become part of Železničar.'],
         ],
         'form' => [
             'title' => 'Enrolment form',
-            'subtitle' => 'Leave your basic details — we get back to you within two working days.',
+            'subtitle' => 'Leave your basic details and we get back to you within two working days.',
             'child_name' => 'Child\'s full name',
             'birth_year' => 'Year of birth',
+            'birth_year_any' => 'Select a year',
             'parent_name' => 'Parent / guardian full name',
             'phone' => 'Phone',
             'email' => 'Email',
             'selection' => 'Preferred age group',
-            'selection_any' => 'Not sure — you suggest',
+            'selection_any' => 'Not sure, you suggest',
             'note' => 'Note (previous experience, questions…)',
             'consent' => 'I agree that the club uses these details solely to contact me about enrolment.',
             'submit' => 'Send application',
@@ -191,7 +192,7 @@ return [
         'page_title' => 'Contact',
         'eyebrow' => 'Contact',
         'title' => 'Get in touch.',
-        'subtitle' => 'Questions about enrolment, partnerships or the club — we are here.',
+        'subtitle' => 'Questions about enrolment, partnerships or the club? We are here.',
         'info_title' => 'Club',
         'address' => 'Address',
         'phone' => 'Phone',
@@ -235,7 +236,7 @@ return [
     ],
 
     'footer' => [
-        'about' => 'FK Železničar Niš is a football club founded in 1928. Today the club\'s focus is its youth academy — the road from the football school to the first team.',
+        'about' => 'FK Železničar Niš is a football club founded in 1928. Today the club\'s focus is its youth academy: the road from the football school to the first team.',
         'club' => 'Club',
         'sections' => 'Site',
         'follow' => 'Follow us',

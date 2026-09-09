@@ -3,7 +3,7 @@
 return [
 
     'meta' => [
-        'description' => 'FK Železničar Niš — zvanični sajt kluba. Vesti, prvi tim, omladinska škola, upis novih igrača i podrška klubu.',
+        'description' => 'FK Železničar Niš, zvanični sajt kluba. Vesti, prvi tim, omladinska škola, upis novih igrača i podrška klubu.',
     ],
 
     'nav' => [
@@ -75,7 +75,7 @@ return [
         'video_title' => 'Video',
         'team_kicker' => 'Prvi tim',
         'team_title' => 'Tim koji nosi grb.',
-        'team_text' => 'Seniori Železničara — igrači koji su izrasli iz naše škole i oni koji su došli da je ojačaju.',
+        'team_text' => 'Seniori Železničara: igrači koji su izrasli iz naše škole i oni koji su došli da je ojačaju.',
         'team_link' => 'Ceo tim, štab i raspored',
         'team_players' => 'igrača u timu',
         'team_academy' => 'iz naše škole',
@@ -87,10 +87,10 @@ return [
         'youth_age' => 'uzrast',
         'enroll_kicker' => 'Upis otvoren',
         'enroll_title' => 'Upiši dete danas. Prvi trening je besplatan.',
-        'enroll_text' => 'Prijava traje manje od minuta. Trener vas zove i dogovarate probni trening — bez obaveza.',
+        'enroll_text' => 'Prijava traje manje od minuta. Trener vas zove i dogovarate probni trening, bez obaveza.',
         'support_kicker' => 'Podrži klub',
         'support_title' => 'Klub žive njegovi ljudi.',
-        'support_text' => 'Svaka uplata ide u rad sa decom, opremu i takmičenja. Bez posrednika — direktno na račun kluba.',
+        'support_text' => 'Svaka uplata ide u rad sa decom, opremu i takmičenja. Bez posrednika, direktno na račun kluba.',
         'social_title' => 'Prati Železničar',
     ],
 
@@ -135,21 +135,22 @@ return [
         'upcoming_title' => 'Utakmice mlađih selekcija',
         'steps_title' => 'Kako izgleda upis',
         'steps' => [
-            ['Prijavite se', 'Popunite formu ispod — ime deteta, godište i vaš kontakt. Manje od minuta.'],
+            ['Prijavite se', 'Popunite formu ispod: ime deteta, godište i vaš kontakt. Manje od minuta.'],
             ['Zovemo vas', 'Trener selekcije vas poziva i dogovarate termin probnog treninga.'],
             ['Probni trening', 'Prvi trening je besplatan i bez obaveza. Patike i dobra volja su dovoljni.'],
             ['Dobrodošli', 'Ako se detetu svidi, upisujete ga i postaje deo Železničara.'],
         ],
         'form' => [
             'title' => 'Prijava za upis',
-            'subtitle' => 'Ostavite osnovne podatke — javljamo se u roku od dva radna dana.',
+            'subtitle' => 'Ostavite osnovne podatke i javljamo se u roku od dva radna dana.',
             'child_name' => 'Ime i prezime deteta',
             'birth_year' => 'Godina rođenja',
+            'birth_year_any' => 'Izaberite godinu',
             'parent_name' => 'Ime i prezime roditelja / staratelja',
             'phone' => 'Telefon',
             'email' => 'Imejl',
             'selection' => 'Željena selekcija',
-            'selection_any' => 'Nisam siguran/na — predložite vi',
+            'selection_any' => 'Nisam siguran/na, predložite vi',
             'note' => 'Napomena (prethodno iskustvo, pitanja…)',
             'consent' => 'Saglasan/na sam da klub koristi ove podatke isključivo radi kontakta u vezi sa upisom.',
             'submit' => 'Pošalji prijavu',
@@ -191,7 +192,7 @@ return [
         'page_title' => 'Kontakt',
         'eyebrow' => 'Kontakt',
         'title' => 'Javite nam se.',
-        'subtitle' => 'Pitanja o upisu, saradnji ili klubu — tu smo.',
+        'subtitle' => 'Pitanja o upisu, saradnji ili klubu? Tu smo.',
         'info_title' => 'Klub',
         'address' => 'Adresa',
         'phone' => 'Telefon',
@@ -235,7 +236,7 @@ return [
     ],
 
     'footer' => [
-        'about' => 'FK Železničar Niš je fudbalski klub osnovan 1928. godine. Danas je fokus kluba omladinska škola — put od škole fudbala do prvog tima.',
+        'about' => 'FK Železničar Niš je fudbalski klub osnovan 1928. godine. Danas je fokus kluba omladinska škola: put od škole fudbala do prvog tima.',
         'club' => 'Klub',
         'sections' => 'Sajt',
         'follow' => 'Pratite nas',

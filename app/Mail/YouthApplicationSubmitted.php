@@ -18,7 +18,7 @@ class YouthApplicationSubmitted extends Mailable
 
     public function build()
     {
-        $mail = $this->subject('Nova prijava za upis — ' . $this->application->child_name)
+        $mail = $this->subject('Nova prijava za upis: ' . $this->application->child_name)
             ->view('emails.youth_application');
 
         if ($this->application->email) {

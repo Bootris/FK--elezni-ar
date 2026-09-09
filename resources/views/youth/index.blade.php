@@ -10,7 +10,7 @@
 
     {{-- ===== Hero ===== --}}
     <section class="relative overflow-hidden bg-navy-950 bg-pitch bg-spot text-white">
-        <div class="wordmark-ghost absolute -bottom-8 -left-4 text-[22vw]" aria-hidden="true">{{ __('club.nav.youth') }}</div>
+        <x-wordmark :text="__('club.nav.youth')" />
         <div class="relative mx-auto grid max-w-[100rem] gap-10 px-6 py-14 sm:py-20 lg:grid-cols-[1.2fr_1fr] lg:items-end">
             <div>
                 <p class="kicker flex items-center gap-2 text-gold-400"><span class="live-dot" aria-hidden="true"></span>{{ __('club.youth.eyebrow') }}</p>
@@ -150,7 +150,7 @@
         </section>
     @endif
 
-    {{-- ===== UPIS — forma ===== --}}
+    {{-- ===== UPIS · forma ===== --}}
     <section id="upis" class="bg-red-500 text-white">
         <div class="mx-auto max-w-[100rem] px-6 py-16 lg:py-24">
             <div class="grid gap-12 lg:grid-cols-[1fr_1.3fr] lg:gap-20">
@@ -187,7 +187,7 @@
                         <div>
                             <label for="e-year" class="field-label">{{ __('club.youth.form.birth_year') }} *</label>
                             <select id="e-year" name="birth_year" required class="field">
-                                <option value="">—</option>
+                                <option value="">{{ __('club.youth.form.birth_year_any') }}</option>
                                 @foreach ($years as $year)
                                     <option value="{{ $year }}" @selected(old('birth_year') == $year)>{{ $year }}.</option>
                                 @endforeach

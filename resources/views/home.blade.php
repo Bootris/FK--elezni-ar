@@ -15,7 +15,7 @@
         @else
             <div class="absolute inset-0 bg-pitch bg-spot"></div>
         @endif
-        <div class="wordmark-ghost absolute -bottom-10 -left-4 text-[26vw] sm:text-[20vw]" aria-hidden="true">{{ $shortName }}</div>
+        <x-wordmark :text="$shortName" />
 
         <div class="relative mx-auto grid max-w-[100rem] items-center gap-12 px-6 pt-14 pb-16 lg:grid-cols-[1.15fr_.85fr] lg:gap-16 lg:py-24">
             <div class="reveal is-visible">

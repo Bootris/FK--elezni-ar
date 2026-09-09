@@ -8,7 +8,7 @@
     $siteName = $site['site_name'] ?? config('app.name');
     $shortName = $site['club_short_name'] ?? 'Železničar';
     $tagline = $site['tagline'] ?? __('club.hero.kicker');
-    $pageTitle = $title ? "{$title} — {$siteName}" : ($site['seo_title'] ?? "{$siteName} — {$tagline}");
+    $pageTitle = $title ? "{$title} · {$siteName}" : ($site['seo_title'] ?? "{$siteName} · {$tagline}");
     $pageDescription = $description ?? ($site['seo_description'] ?? __('club.meta.description'));
     $locale = app()->getLocale();
     $homeUrl = url($locale);
@@ -124,7 +124,7 @@
     <header id="site-header" class="sticky top-0 z-40 border-b border-white/10 bg-navy-900/95 text-white backdrop-blur transition-shadow">
         <div class="mx-auto flex h-[4.25rem] max-w-[100rem] items-center gap-5 px-4 sm:px-6 lg:h-20">
             <a href="{{ $homeUrl }}" class="flex shrink-0 items-center gap-3">
-                <img src="{{ $logoUrl }}" alt="{{ $siteName }}" class="h-11 w-11 object-contain lg:h-14 lg:w-14" width="56" height="56">
+                <img src="{{ $logoUrl }}" alt="{{ $siteName }}" class="crest h-11 w-11 object-contain lg:h-14 lg:w-14" width="56" height="56">
                 <span class="hidden flex-col leading-none sm:flex">
                     <span class="font-display text-[1.45rem] font-black uppercase tracking-tight lg:text-[1.65rem]">FK {{ $shortName }}</span>
                     <span class="kicker mt-1 text-[9.5px] tracking-[0.28em] text-gold-400">{{ $site['city'] ?? 'Niš' }} · {{ $site['founded_year'] ?? '1928' }}</span>
@@ -161,7 +161,7 @@
         class="fixed inset-y-0 right-0 z-50 flex w-80 max-w-[88vw] translate-x-full flex-col bg-navy-950 bg-pitch p-7 text-white transition-transform duration-300 lg:hidden">
         <div class="flex items-center justify-between">
             <span class="flex items-center gap-3">
-                <img src="{{ $logoUrl }}" alt="" class="h-10 w-10 object-contain">
+                <img src="{{ $logoUrl }}" alt="" class="crest h-10 w-10 object-contain">
                 <span class="font-display text-xl font-black uppercase">FK {{ $shortName }}</span>
             </span>
             <button id="menu-close" type="button" class="rounded-md p-2 transition hover:bg-white/10">
@@ -195,12 +195,12 @@
     {{-- ===== Footer ===== --}}
     <footer class="relative overflow-hidden bg-navy-950 bg-pitch text-navy-200">
         <div class="mx-auto max-w-[100rem] px-6 pt-16 pb-24 lg:pb-8">
-            <div class="wordmark-ghost text-[17vw] sm:text-[14vw]" aria-hidden="true">{{ $shortName }}</div>
+            <x-wordmark :text="$shortName" :floating="false" />
 
             <div class="mt-10 grid gap-10 border-t border-white/10 pt-12 md:grid-cols-[2fr_1fr_1fr_1fr]">
                 <div>
                     <div class="flex items-center gap-3">
-                        <img src="{{ $logoUrl }}" alt="" class="h-12 w-12 object-contain">
+                        <img src="{{ $logoUrl }}" alt="" class="crest h-12 w-12 object-contain">
                         <span class="font-display text-2xl font-black uppercase text-white">{{ $siteName }}</span>
                     </div>
                     <p class="mt-5 max-w-sm text-sm leading-relaxed">{{ __('club.footer.about') }}</p>

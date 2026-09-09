@@ -221,7 +221,7 @@ class ZeleznicarDemoSeeder extends Seeder
                 'excerpt' => 'Omladinska škola Železničara prima nove članove u svim uzrastima od 5 do 19 godina. Prijavite dete onlajn za manje od minuta.',
                 'paras' => [
                     'Sa početkom nove sezone otvaramo vrata svim devojčicama i dečacima koji žele da igraju fudbal. Prijava je jednostavna: popunite formu na sajtu, a naši treneri će vas pozvati i dogovoriti prvi, probni trening.',
-                    'Treninzi se održavaju tri puta nedeljno na terenima kluba, pod vođstvom licenciranih trenera. Oprema za prvi trening nije potrebna — dovoljne su patike i dobra volja.',
+                    'Treninzi se održavaju tri puta nedeljno na terenima kluba, pod vođstvom licenciranih trenera. Oprema za prvi trening nije potrebna, dovoljne su patike i dobra volja.',
                     'Za sve dodatne informacije roditelji mogu da nas pozovu ili pošalju poruku preko sajta.',
                 ],
             ],
@@ -250,7 +250,7 @@ class ZeleznicarDemoSeeder extends Seeder
                 'title' => 'Podrži klub: svaka uplata ide u omladinsku školu',
                 'category' => 'Klub',
                 'days' => 14,
-                'excerpt' => 'Otvorili smo jednostavan način da navijači i prijatelji kluba pomognu rad sa decom — uplatom na račun kluba.',
+                'excerpt' => 'Otvorili smo jednostavan način da navijači i prijatelji kluba pomognu rad sa decom, uplatom na račun kluba.',
                 'paras' => [
                     'Železničar nema bogatog vlasnika. Ima grad, navijače i ljude koji veruju u ono što radimo sa decom. Zato smo napravili stranicu „Podrži klub“ sa svim podacima za uplatu.',
                     'Sredstva idu u opremu, kotizacije za turnire i prevoz mlađih selekcija. Hvala svima koji su već uplatili.',

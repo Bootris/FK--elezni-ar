@@ -47,7 +47,7 @@ class DatabaseSeeder extends Seeder
 
             'youth_intro' => 'Omladinska škola FK Železničar okuplja decu iz Niša i okoline od predškolskog uzrasta do omladinaca. Licencirani treneri, jasan plan razvoja i put do prvog tima.',
             'youth_age_range' => 'od 5 do 19 godina',
-            'youth_training_info' => 'Treninzi se održavaju tri puta nedeljno na terenima kluba. Prvi trening je besplatan i bez obaveza — dođite, upoznajte trenere i probajte.',
+            'youth_training_info' => 'Treninzi se održavaju tri puta nedeljno na terenima kluba. Prvi trening je besplatan i bez obaveza: dođite, upoznajte trenere i probajte.',
             'youth_phone' => '+381 60 000 0000',
             'youth_email' => 'omladinci@fkzeleznicar.rs',
 
@@ -66,7 +66,7 @@ class DatabaseSeeder extends Seeder
             'phone' => '+381 18 000 000',
             'working_hours' => 'Pon–Pet · 10–18h',
 
-            'seo_description' => 'FK Železničar Niš — zvanični sajt kluba. Vesti, prvi tim, omladinska škola, upis novih igrača i podrška klubu.',
+            'seo_description' => 'FK Železničar Niš, zvanični sajt kluba. Vesti, prvi tim, omladinska škola, upis novih igrača i podrška klubu.',
         ];
 
         foreach ($defaults as $key => $value) {

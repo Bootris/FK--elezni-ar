@@ -8,7 +8,7 @@
 @if ($rows->isEmpty())
     <p class="text-sm {{ $textMuted }}">{{ __('club.match.no_table') }}</p>
 @else
-    <div class="overflow-x-auto">
+    <div class="scroll-x">
         <table class="w-full text-sm {{ $dark ? 'text-navy-100' : 'text-ink-700' }}">
             <thead>
                 <tr class="text-[10.5px] font-bold uppercase tracking-[0.14em] {{ $textMuted }}">

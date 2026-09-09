@@ -6,32 +6,36 @@
     $isLive = $match->status === 'live';
 @endphp
 
-<div {{ $attributes->merge(['class' => 'relative overflow-hidden rounded-sm p-6 ' . ($dark ? 'bg-navy-800 bg-pitch text-white' : 'border border-surface-300 bg-white text-navy-900')]) }}>
-    <div class="flex items-center justify-between gap-3 text-[11px] font-semibold uppercase tracking-[0.16em] {{ $dark ? 'text-navy-200' : 'text-ink-400' }}">
-        <span class="flex items-center gap-2 {{ $dark ? 'text-gold-400' : 'text-red-600' }}">
+<div {{ $attributes->merge(['class' => 'relative overflow-hidden rounded-sm p-5 sm:p-6 ' . ($dark ? 'bg-navy-800 bg-pitch text-white' : 'border border-surface-300 bg-white text-navy-900')]) }}>
+    <div class="flex flex-wrap items-center justify-between gap-x-3 gap-y-1 text-[10px] font-semibold uppercase tracking-[0.12em] sm:text-[11px] sm:tracking-[0.16em] {{ $dark ? 'text-navy-200' : 'text-ink-400' }}">
+        <span class="flex items-center gap-2 whitespace-nowrap {{ $dark ? 'text-gold-400' : 'text-red-600' }}">
             @if ($isLive)<span class="live-dot" aria-hidden="true"></span>{{ __('club.match.live') }}@else{{ $label ?? $match->competition }}@endif
         </span>
-        <span>{{ $match->competition }}@if ($match->round) · {{ $match->round }}@endif</span>
+        <span class="whitespace-nowrap">{{ $match->competition }}@if ($match->round) · {{ $match->round }}@endif</span>
     </div>
 
-    <div class="mt-5 grid grid-cols-[1fr_auto_1fr] items-center gap-3">
-        <div class="text-right">
-            <span class="display block text-2xl leading-none sm:text-3xl {{ $match->is_home ? ($dark ? 'text-white' : 'text-navy-900') : ($dark ? 'text-navy-100' : 'text-ink-600') }}">{{ $match->home_team }}</span>
-            <span class="mt-1 block text-[11px] uppercase tracking-wider {{ $dark ? 'text-navy-300' : 'text-ink-400' }}">{{ __('club.match.home') }}</span>
-        </div>
+    {{-- The scoreboard never wraps or squashes a club name: it fills the card
+         when it fits and scrolls sideways when it does not. --}}
+    <div class="scroll-x -mx-5 mt-5 px-5 sm:-mx-6 sm:px-6">
+        <div class="grid w-max min-w-full grid-cols-[1fr_auto_1fr] items-center gap-2 sm:gap-3">
+            <div class="text-right">
+                <span class="display block text-[1.0625rem] leading-none sm:text-3xl {{ $match->is_home ? ($dark ? 'text-white' : 'text-navy-900') : ($dark ? 'text-navy-100' : 'text-ink-600') }}">{{ $match->home_team }}</span>
+                <span class="mt-1 block text-[11px] uppercase tracking-wider {{ $dark ? 'text-navy-300' : 'text-ink-400' }}">{{ __('club.match.home') }}</span>
+            </div>
 
-        <div class="px-2 text-center">
-            @if ($finished || $isLive)
-                <span class="score text-5xl sm:text-6xl">{{ $match->home_score ?? 0 }}:{{ $match->away_score ?? 0 }}</span>
-            @else
-                <span class="score text-4xl sm:text-5xl">{{ $match->kickoff_at->format('H:i') }}</span>
-                <span class="mt-1 block text-[11px] font-semibold uppercase tracking-wider {{ $dark ? 'text-navy-300' : 'text-ink-400' }}">{{ rtrim($match->kickoff_at->translatedFormat('D'), '.') }} {{ $match->kickoff_at->format('d.m.') }}</span>
-            @endif
-        </div>
+            <div class="px-1 text-center sm:px-2">
+                @if ($finished || $isLive)
+                    <span class="score text-4xl sm:text-6xl">{{ $match->home_score ?? 0 }}:{{ $match->away_score ?? 0 }}</span>
+                @else
+                    <span class="score text-3xl sm:text-5xl">{{ $match->kickoff_at->format('H:i') }}</span>
+                    <span class="mt-1 block whitespace-nowrap text-[11px] font-semibold uppercase sm:tracking-wider {{ $dark ? 'text-navy-300' : 'text-ink-400' }}">{{ rtrim($match->kickoff_at->translatedFormat('D'), '.') }} {{ $match->kickoff_at->format('d.m.') }}</span>
+                @endif
+            </div>
 
-        <div>
-            <span class="display block text-2xl leading-none sm:text-3xl {{ !$match->is_home ? ($dark ? 'text-white' : 'text-navy-900') : ($dark ? 'text-navy-100' : 'text-ink-600') }}">{{ $match->away_team }}</span>
-            <span class="mt-1 block text-[11px] uppercase tracking-wider {{ $dark ? 'text-navy-300' : 'text-ink-400' }}">{{ __('club.match.away') }}</span>
+            <div>
+                <span class="display block text-[1.0625rem] leading-none sm:text-3xl {{ !$match->is_home ? ($dark ? 'text-white' : 'text-navy-900') : ($dark ? 'text-navy-100' : 'text-ink-600') }}">{{ $match->away_team }}</span>
+                <span class="mt-1 block text-[11px] uppercase tracking-wider {{ $dark ? 'text-navy-300' : 'text-ink-400' }}">{{ __('club.match.away') }}</span>
+            </div>
         </div>
     </div>
 

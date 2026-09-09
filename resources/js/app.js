@@ -140,3 +140,26 @@ if (toast) {
         setTimeout(() => toast.remove(), 500);
     }, 6000);
 }
+
+// Horizontal scrollers (match scoreboards) ------------------------------
+// Fade whichever edge still has content behind it, so it is obvious that a
+// long club name can be swiped into view.
+const scrollers = document.querySelectorAll('.scroll-x');
+
+const syncScroller = (el) => {
+    const max = el.scrollWidth - el.clientWidth;
+    el.classList.toggle('sx-start', max > 1 && el.scrollLeft > 1);
+    el.classList.toggle('sx-end', max > 1 && el.scrollLeft < max - 1);
+};
+
+const syncScrollers = () => scrollers.forEach(syncScroller);
+
+scrollers.forEach((el) => {
+    syncScroller(el);
+    el.addEventListener('scroll', () => syncScroller(el), { passive: true });
+});
+
+if (scrollers.length) {
+    window.addEventListener('resize', syncScrollers);
+    document.fonts?.ready.then(syncScrollers);
+}

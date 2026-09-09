@@ -123,7 +123,7 @@ class ManageSettings extends Page
                             ->schema([
                                 Section::make('Podaci za uplatu')
                                     ->columns(2)
-                                    ->description('Prikazuju se na stranici „Podrži klub“. Bez onlajn plaćanja — samo podaci za uplatnicu / e-banking.')
+                                    ->description('Prikazuju se na stranici „Podrži klub“. Bez onlajn plaćanja, samo podaci za uplatnicu / e-banking.')
                                     ->components([
                                         Textarea::make('support_intro')->label('Poziv na podršku')->rows(3)->columnSpanFull(),
                                         TextInput::make('account_holder')->label('Primalac'),
@@ -175,7 +175,7 @@ class ManageSettings extends Page
                                 Section::make('Podrazumevani meta podaci')
                                     ->components([
                                         TextInput::make('seo_title')->label('Naslov sajta u pretraživačima')
-                                            ->helperText('Ako je prazno: „Naziv kluba — slogan“.'),
+                                            ->helperText('Ako je prazno: „Naziv kluba · slogan“.'),
                                         Textarea::make('seo_description')->label('Opis sajta')->rows(3)->maxLength(300),
                                     ]),
                             ]),

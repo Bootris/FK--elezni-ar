@@ -16,7 +16,7 @@
 <x-site-layout :title="__('club.support.page_title')" :description="$site['support_intro'] ?? __('club.support.subtitle')">
 
     <section class="relative overflow-hidden bg-navy-950 bg-pitch bg-spot text-white">
-        <div class="wordmark-ghost absolute -bottom-8 -right-6 text-[20vw]" aria-hidden="true">{{ $site['founded_year'] ?? '1928' }}</div>
+        <x-wordmark :text="$site['founded_year'] ?? '1928'" align="right" />
         <div class="relative mx-auto max-w-[100rem] px-6 py-14 sm:py-20">
             <p class="kicker text-gold-400">{{ __('club.support.eyebrow') }}</p>
             <h1 class="display mt-3 max-w-4xl text-5xl text-balance sm:text-7xl lg:text-8xl">{{ __('club.support.title') }}</h1>
@@ -39,9 +39,9 @@
                     </div>
                     <dl class="divide-y divide-surface-300">
                         @foreach ($rows as $key => $value)
-                            <div class="grid grid-cols-[8rem_1fr_auto] items-center gap-3 px-5 py-3.5 sm:grid-cols-[11rem_1fr_auto]">
-                                <dt class="text-[11px] font-bold uppercase tracking-[0.14em] text-ink-400">{{ __('club.support.' . $key) }}</dt>
-                                <dd class="{{ $key === 'account_number' ? 'score text-2xl text-navy-900 sm:text-3xl' : 'font-semibold text-ink-900' }}">{{ $value }}</dd>
+                            <div class="grid grid-cols-[1fr_auto] items-center gap-x-3 gap-y-1 px-5 py-3.5 sm:grid-cols-[11rem_1fr_auto]">
+                                <dt class="col-span-2 text-[11px] font-bold uppercase tracking-[0.14em] text-ink-400 sm:col-span-1">{{ __('club.support.' . $key) }}</dt>
+                                <dd class="min-w-0 break-words {{ $key === 'account_number' ? 'score text-xl text-navy-900 sm:text-3xl' : 'font-semibold text-ink-900' }}">{{ $value }}</dd>
                                 <dd>
                                     <button type="button" data-copy="{{ $value }}" data-copied="{{ __('club.support.copied') }}"
                                         class="rounded-sm border border-surface-300 px-2.5 py-1 font-display text-[11px] font-bold uppercase tracking-wider text-ink-600 transition hover:border-navy-900 hover:text-navy-900 [&.is-copied]:border-green-600 [&.is-copied]:text-green-700">

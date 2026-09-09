@@ -7,7 +7,7 @@
 <x-site-layout :title="__('club.team.page_title')" :description="__('club.team.subtitle')">
 
     <section class="relative overflow-hidden bg-navy-950 bg-pitch bg-spot text-white">
-        <div class="wordmark-ghost absolute -bottom-8 -right-6 text-[22vw]" aria-hidden="true">{{ $site['season'] ?? '' }}</div>
+        <x-wordmark :text="$site['season'] ?? ''" align="right" />
         <div class="relative mx-auto max-w-[100rem] px-6 py-14 sm:py-20">
             <p class="kicker text-gold-400">{{ __('club.team.eyebrow') }} @if (!empty($site['season']))· {{ __('club.team.season') }} {{ $site['season'] }}@endif</p>
             <h1 class="display mt-3 text-6xl sm:text-8xl">{{ __('club.team.page_title') }}</h1>
@@ -80,11 +80,11 @@
     {{-- ===== Utakmice + tabela ===== --}}
     <section id="utakmice" class="mx-auto max-w-[100rem] px-6 py-16 lg:py-24">
         <div class="grid gap-12 lg:grid-cols-[1.2fr_1fr] lg:gap-16">
-            <div data-tabs>
+            <div data-tabs class="min-w-0">
                 <div class="flex items-end justify-between gap-6 border-b-2 border-navy-900 pb-4">
-                    <div class="flex gap-6" role="tablist">
-                        <button type="button" data-tab="utakmice" role="tab" class="display text-4xl text-ink-400 transition sm:text-5xl [&.is-active]:text-navy-900">{{ __('club.match.upcoming') }}</button>
-                        <button type="button" data-tab="rezultati" role="tab" class="display text-4xl text-ink-400 transition sm:text-5xl [&.is-active]:text-navy-900">{{ __('club.match.results') }}</button>
+                    <div class="flex flex-wrap gap-x-5 gap-y-1 sm:gap-x-6" role="tablist">
+                        <button type="button" data-tab="utakmice" role="tab" class="display text-3xl text-ink-400 transition sm:text-5xl [&.is-active]:text-navy-900">{{ __('club.match.upcoming') }}</button>
+                        <button type="button" data-tab="rezultati" role="tab" class="display text-3xl text-ink-400 transition sm:text-5xl [&.is-active]:text-navy-900">{{ __('club.match.results') }}</button>
                     </div>
                 </div>
 
@@ -104,7 +104,7 @@
                 </div>
             </div>
 
-            <div id="tabela" class="rounded-sm bg-navy-950 bg-pitch p-6 text-white sm:p-8">
+            <div id="tabela" class="min-w-0 rounded-sm bg-navy-950 bg-pitch p-6 text-white sm:p-8">
                 <div class="flex items-end justify-between gap-4 border-b border-white/15 pb-4">
                     <div>
                         <p class="kicker text-gold-400">{{ $site['league_name'] ?? '' }} @if (!empty($site['season']))· {{ $site['season'] }}@endif</p>
