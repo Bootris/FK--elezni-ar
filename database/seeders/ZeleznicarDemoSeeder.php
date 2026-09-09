@@ -34,13 +34,13 @@ class ZeleznicarDemoSeeder extends Seeder
     private function selections(): void
     {
         $rows = [
-            ['U-7 · Škola fudbala', '2019/2020', 'Prvi koraci: igra, lopta i druženje. Bez rezultata, sa puno smeha.', 'Uto, Čet · 17:00–18:00'],
-            ['U-9', '2017/2018', 'Osnove tehnike kroz igru. Prvi turniri i prve utakmice u malom formatu.', 'Pon, Sre, Pet · 17:00–18:15'],
-            ['U-11', '2015/2016', 'Rad na tehnici i koordinaciji, razumevanje pozicija, liga 7+1.', 'Pon, Sre, Pet · 18:15–19:30'],
-            ['U-13 · Petlići', '2013/2014', 'Prelazak na veliki teren, taktičke osnove i takmičenje u ligi petlića.', 'Uto, Čet, Sub · 17:30–19:00'],
-            ['U-15 · Pioniri', '2011/2012', 'Pionirska liga, individualni plan razvoja i priprema za kadetski uzrast.', 'Pon, Sre, Pet · 18:30–20:00'],
-            ['U-17 · Kadeti', '2009/2010', 'Kadetska liga. Ozbiljan trenažni proces i rad sa prvim timom.', 'Uto, Čet, Sub · 19:00–20:30'],
-            ['U-19 · Omladinci', '2007/2008', 'Poslednji korak pred prvi tim. Najbolji već treniraju sa seniorima.', 'Pon, Sre, Pet · 19:30–21:00'],
+            ['U-7 · Škola fudbala', '2020/2021', 'Prvi koraci: igra, lopta i druženje. Bez rezultata, sa puno smeha.', 'Uto, Čet · 17:00–18:00'],
+            ['U-9', '2018/2019', 'Osnove tehnike kroz igru. Prvi turniri i prve utakmice u malom formatu.', 'Pon, Sre, Pet · 17:00–18:15'],
+            ['U-11', '2016/2017', 'Rad na tehnici i koordinaciji, razumevanje pozicija, liga 7+1.', 'Pon, Sre, Pet · 18:15–19:30'],
+            ['U-13 · Petlići', '2014/2015', 'Prelazak na veliki teren, taktičke osnove i takmičenje u ligi petlića.', 'Uto, Čet, Sub · 17:30–19:00'],
+            ['U-15 · Pioniri', '2012/2013', 'Pionirska liga, individualni plan razvoja i priprema za kadetski uzrast.', 'Pon, Sre, Pet · 18:30–20:00'],
+            ['U-17 · Kadeti', '2010/2011', 'Kadetska liga. Ozbiljan trenažni proces i rad sa prvim timom.', 'Uto, Čet, Sub · 19:00–20:30'],
+            ['U-19 · Omladinci', '2008/2009', 'Poslednji korak pred prvi tim. Najbolji već treniraju sa seniorima.', 'Pon, Sre, Pet · 19:30–21:00'],
         ];
 
         foreach ($rows as $i => [$name, $years, $desc, $schedule]) {
@@ -103,19 +103,12 @@ class ZeleznicarDemoSeeder extends Seeder
 
     private function staff(): void
     {
-        $selections = YouthSelection::query()->pluck('id', 'slug');
+        // Prazno namerno: stručni štab su stvarni ljudi i klub ih unosi kroz
+        // admin (Stručni štab). Sajt uredno prikazuje praznu sekciju dok ih nema.
+        // Oblik reda: [ime, uloga, first_team|youth|club, slug selekcije|null, licenca|null]
+        $rows = [];
 
-        $rows = [
-            ['Dragan Mladenović', 'Šef stručnog štaba', 'first_team', null, 'UEFA A'],
-            ['Ivan Ćirić', 'Pomoćni trener', 'first_team', null, 'UEFA B'],
-            ['Bojan Ranđelović', 'Trener golmana', 'first_team', null, 'UEFA GK B'],
-            ['Saša Stamenković', 'Direktor omladinske škole', 'youth', null, 'UEFA A'],
-            ['Milan Đokić', 'Trener', 'youth', 'u-19-omladinci', 'UEFA B'],
-            ['Nenad Krstić', 'Trener', 'youth', 'u-17-kadeti', 'UEFA B'],
-            ['Jelena Pešić', 'Trener', 'youth', 'u-9', 'UEFA C'],
-            ['Zoran Antić', 'Trener', 'youth', 'u-7-skola-fudbala', 'UEFA C'],
-            ['Predrag Marinković', 'Predsednik kluba', 'club', null, null],
-        ];
+        $selections = YouthSelection::query()->pluck('id', 'slug');
 
         foreach ($rows as $i => [$name, $role, $dept, $selectionSlug, $licence]) {
             StaffMember::updateOrCreate(
@@ -213,11 +206,10 @@ class ZeleznicarDemoSeeder extends Seeder
                 'paras' => [
                     'Prvo kolo Druge niške lige odigrano je 6. septembra na Stadionu Železničar u Nišu. Naš tim je pobedio Supovac rezultatom 2:0.',
                     'Sledeći protivnik je Mladost 2025, u gostima, u 2. kolu.',
-                    'Napomena za administratora: ovo je pripremljen tekst — izveštaj sa utakmice, strelce i fotografije dopunite kroz admin.',
                 ],
             ],
             [
-                'title' => 'Otvoren upis za sezonu 2025/26: prvi trening je besplatan',
+                'title' => 'Otvoren upis za sezonu 2026/27: prvi trening je besplatan',
                 'category' => 'Omladinci',
                 'days' => 4,
                 'home' => false,
@@ -229,27 +221,6 @@ class ZeleznicarDemoSeeder extends Seeder
                 ],
             ],
             [
-                'title' => 'Trojica omladinaca potpisala prve ugovore sa klubom',
-                'category' => 'Prvi tim',
-                'days' => 7,
-                'excerpt' => 'Todorović, Živković i Ristić nastavljaju putovanje koje je počelo u školi fudbala Železničara.',
-                'paras' => [
-                    'Put od škole fudbala do prvog tima je ono zbog čega ovaj klub postoji. Trojica naših omladinaca danas su potpisala prve seniorske ugovore i od ove sezone su punopravni članovi prvog tima.',
-                    'Sva trojica su u klubu od svoje sedme godine i prošla su sve selekcije omladinske škole. Čestitamo im i želimo mnogo uspešnih utakmica u našem dresu.',
-                ],
-            ],
-            [
-                'title' => 'Kadeti Železničara prvaci turnira u Leskovcu',
-                'category' => 'Omladinci',
-                'days' => 10,
-                'video' => 'https://www.youtube.com/watch?v=aqz-KE-bpKQ',
-                'excerpt' => 'Generacija 2009/2010 osvojila je prvo mesto na jakom regionalnom turniru bez ijednog poraza.',
-                'paras' => [
-                    'Naši kadeti su na turniru u Leskovcu odigrali pet utakmica, zabeležili četiri pobede i jedan nerešen rezultat i zasluženo podigli pehar.',
-                    'Za najboljeg igrača turnira proglašen je naš kapiten, a golman Železničara primio je samo jedan gol na celom turniru.',
-                ],
-            ],
-            [
                 'title' => 'Podrži klub: svaka uplata ide u omladinsku školu',
                 'category' => 'Klub',
                 'days' => 14,
@@ -257,17 +228,6 @@ class ZeleznicarDemoSeeder extends Seeder
                 'paras' => [
                     'Železničar nema bogatog vlasnika. Ima grad, navijače i ljude koji veruju u ono što radimo sa decom. Zato smo napravili stranicu „Podrži klub“ sa svim podacima za uplatu.',
                     'Sredstva idu u opremu, kotizacije za turnire i prevoz mlađih selekcija. Hvala svima koji su već uplatili.',
-                ],
-            ],
-            [
-                'title' => 'Renoviran teren sa veštačkom travom za mlađe selekcije',
-                'category' => 'Klub',
-                'days' => 21,
-                'video' => 'https://www.youtube.com/watch?v=ScMzIvxBSi4',
-                'excerpt' => 'Posle dva meseca radova, pomoćni teren je dobio novu podlogu i rasvetu. Od sada treniramo i zimi.',
-                'paras' => [
-                    'Novi teren sa veštačkom travom omogućava našim mlađim selekcijama da treniraju tokom cele godine, bez obzira na vremenske uslove.',
-                    'Pogledajte kako je izgledala rekonstrukcija i prvi trening na novom terenu.',
                 ],
             ],
         ];
