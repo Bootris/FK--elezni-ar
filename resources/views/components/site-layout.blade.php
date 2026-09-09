@@ -125,9 +125,9 @@
         <div class="mx-auto flex h-[4.25rem] max-w-[100rem] items-center gap-5 px-4 sm:px-6 lg:h-20">
             <a href="{{ $homeUrl }}" class="flex shrink-0 items-center gap-3">
                 <img src="{{ $logoUrl }}" alt="{{ $siteName }}" class="crest h-11 w-11 object-contain lg:h-14 lg:w-14" width="56" height="56">
-                <span class="hidden flex-col leading-none sm:flex">
-                    <span class="font-display text-[1.45rem] font-black uppercase tracking-tight lg:text-[1.65rem]">FK {{ $shortName }}</span>
-                    <span class="kicker mt-1 text-[9.5px] tracking-[0.28em] text-gold-400">{{ $site['city'] ?? 'Niš' }} · {{ $site['founded_year'] ?? '1928' }}</span>
+                <span class="flex flex-col leading-none">
+                    <span class="font-display text-xl font-black uppercase tracking-tight sm:text-[1.45rem] lg:text-[1.65rem]">FK {{ $shortName }}</span>
+                    <span class="kicker mt-1 hidden text-[9.5px] tracking-[0.28em] text-gold-400 sm:block">{{ $site['city'] ?? 'Niš' }} · {{ $site['founded_year'] ?? '1928' }}</span>
                 </span>
             </a>
 
@@ -142,7 +142,7 @@
 
             <div class="ml-auto flex items-center gap-2 sm:gap-3">
                 <a href="{{ $supportUrl }}" class="btn btn-outline btn-sm hidden md:inline-flex">{{ __('club.cta.support') }}</a>
-                <a href="{{ $enrolUrl }}" class="btn btn-red btn-sm">
+                <a href="{{ $enrolUrl }}" class="btn btn-red btn-sm hidden lg:inline-flex">
                     <svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l2.9 6.3 6.9.8-5.1 4.7 1.4 6.8L12 17.3 5.9 20.6l1.4-6.8L2.2 9.1l6.9-.8z"/></svg>
                     {{ __('club.cta.enroll') }}
                 </a>
