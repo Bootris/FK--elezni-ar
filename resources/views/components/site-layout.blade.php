@@ -162,7 +162,7 @@
     {{-- ===== Mobile menu ===== --}}
     <div id="menu-overlay" class="pointer-events-none fixed inset-0 z-40 bg-navy-950/75 opacity-0 transition-opacity duration-300 lg:hidden"></div>
     <div id="mobile-menu"
-        class="fixed inset-y-0 right-0 z-50 flex w-80 max-w-[88vw] translate-x-full flex-col bg-navy-950 bg-pitch p-7 text-white transition-transform duration-300 lg:hidden">
+        class="fixed inset-y-0 right-0 z-50 flex w-80 max-w-[88vw] translate-x-full flex-col overflow-y-auto overscroll-contain bg-navy-950 bg-pitch p-7 pb-[max(1.75rem,env(safe-area-inset-bottom))] text-white transition-transform duration-300 lg:hidden">
         <div class="flex items-center justify-between">
             <span class="flex items-center gap-3">
                 <img src="{{ $logoUrl }}" alt="" class="crest h-10 w-10 object-contain">
@@ -174,18 +174,18 @@
             </button>
         </div>
 
-        <nav class="mt-8 flex flex-col" aria-label="Mobile">
+        <nav class="mt-6 flex flex-col" aria-label="Mobile">
             @foreach ($navLinks as $link)
-                <a href="{{ $link['href'] }}" class="border-b border-white/10 py-3.5 font-display text-2xl font-bold uppercase tracking-wide transition hover:text-gold-400">{{ $link['label'] }}</a>
+                <a href="{{ $link['href'] }}" class="border-b border-white/10 py-3 font-display text-[1.4rem] font-bold uppercase tracking-wide transition hover:text-gold-400">{{ $link['label'] }}</a>
             @endforeach
         </nav>
 
-        <div class="mt-8 grid gap-3">
+        <div class="mt-6 grid gap-3">
             <a href="{{ $enrolUrl }}" class="btn btn-red whitespace-normal">{{ __('club.cta.enroll') }}</a>
             <a href="{{ $supportUrl }}" class="btn btn-outline whitespace-normal">{{ __('club.cta.support') }}</a>
         </div>
 
-        <div class="mt-auto flex items-center gap-3 pt-8 text-sm font-semibold text-navy-200">
+        <div class="mt-auto flex items-center gap-3 pt-6 text-sm font-semibold text-navy-200">
             <a href="{{ url('sr') }}" class="{{ $locale === 'sr' ? 'text-gold-400' : '' }}">Srpski</a>
             <span class="text-navy-600">/</span>
             <a href="{{ url('en') }}" class="{{ $locale === 'en' ? 'text-gold-400' : '' }}">English</a>
