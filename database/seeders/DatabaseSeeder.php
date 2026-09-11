@@ -78,5 +78,8 @@ class DatabaseSeeder extends Seeder
         if (config('site.seed_demo')) {
             $this->call(ZeleznicarDemoSeeder::class);
         }
+
+        // Real players with official photos — after the demo so they keep their data.
+        $this->call(FirstTeamSeeder::class);
     }
 }

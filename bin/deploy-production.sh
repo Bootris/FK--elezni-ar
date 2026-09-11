@@ -15,6 +15,8 @@ composer install --no-dev --no-interaction --prefer-dist --optimize-autoloader -
 npm ci --no-audit --no-fund
 npm run build
 php artisan migrate --force --no-interaction
+[ -e public/storage ] || php artisan storage:link
+php artisan db:seed --class=FirstTeamSeeder --force --no-interaction   # igraci sa fotografijama, idempotentno
 
 chown -R www-data:www-data "$APP"
 chmod -R 775 "$APP/storage" "$APP/bootstrap/cache"
