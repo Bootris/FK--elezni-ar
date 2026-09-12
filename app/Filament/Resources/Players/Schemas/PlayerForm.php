@@ -21,6 +21,7 @@ class PlayerForm
             ->columns(3)
             ->components([
                 Section::make('Igrač')
+                    ->description('Sva polja osim imena i pozicije su opciona — prazna polja se na sajtu prikazuju kao crtica, pa se mogu dopuniti kad god.')
                     ->columnSpan(2)
                     ->columns(2)
                     ->components([
@@ -53,13 +54,27 @@ class PlayerForm
                         DatePicker::make('birth_date')
                             ->label('Datum rođenja')
                             ->displayFormat('d.m.Y'),
+                        TextInput::make('birth_place')
+                            ->label('Mesto rođenja')
+                            ->maxLength(255),
                         TextInput::make('nationality')
                             ->label('Državljanstvo')
                             ->default('Srbija')
                             ->maxLength(255),
+                        Select::make('preferred_foot')
+                            ->label('Jača noga')
+                            ->options(Player::FEET)
+                            ->native(false),
                         TextInput::make('height_cm')
                             ->label('Visina (cm)')
-                            ->numeric(),
+                            ->numeric()
+                            ->minValue(100)
+                            ->maxValue(250),
+                        TextInput::make('weight_kg')
+                            ->label('Težina (kg)')
+                            ->numeric()
+                            ->minValue(30)
+                            ->maxValue(150),
                         TextInput::make('joined_year')
                             ->label('U klubu od (godina)')
                             ->numeric(),

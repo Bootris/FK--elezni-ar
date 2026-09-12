@@ -36,6 +36,8 @@ class PlayersTable
                         default => 'danger',
                     }),
                 TextColumn::make('birth_date')->label('Rođen')->date('d.m.Y')->sortable(),
+                TextColumn::make('height_cm')->label('Visina')->suffix(' cm')->sortable()->toggleable(),
+                TextColumn::make('weight_kg')->label('Težina')->suffix(' kg')->sortable()->toggleable(),
                 IconColumn::make('from_academy')->label('Škola')->boolean(),
                 IconColumn::make('visible')->label('Vidljiv')->boolean(),
             ])

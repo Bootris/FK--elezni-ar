@@ -76,6 +76,38 @@ class PublicSiteTest extends TestCase
             ->assertDontSee('Skriveni');
     }
 
+    public function test_first_team_page_renders_player_profile_with_all_details(): void
+    {
+        $player = Player::create([
+            'name' => 'Marko Detaljni',
+            'position' => 'DF',
+            'shirt_number' => 4,
+            'birth_date' => '2000-05-15',
+            'birth_place' => 'Niš',
+            'nationality' => 'Srbija',
+            'height_cm' => 184,
+            'weight_kg' => 78,
+            'preferred_foot' => 'left',
+            'joined_year' => 2022,
+            'previous_club' => 'FK Radnički',
+        ]);
+        Player::create(['name' => 'Prazan Profil', 'position' => 'FW']);
+
+        $this->get('/sr/prvi-tim')
+            ->assertOk()
+            ->assertSee('data-player-open="player-' . $player->id . '"', false)
+            ->assertSee('id="player-' . $player->id . '"', false)
+            ->assertSee('15.05.2000')
+            ->assertSee('184 cm')
+            ->assertSee('78 kg')
+            ->assertSee('Leva')
+            ->assertSee('FK Radnički')
+            ->assertSee('Profil igrača')
+            // A player with no data still gets a profile, with dashes for the empty fields.
+            ->assertSee('Prazan Profil')
+            ->assertSee('Pogledaj profil');
+    }
+
     public function test_youth_page_lists_selections(): void
     {
         YouthSelection::create(['name' => 'U-11', 'birth_years' => '2015/2016']);

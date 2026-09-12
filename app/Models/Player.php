@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class Player extends Model
@@ -15,10 +16,16 @@ class Player extends Model
         'FW' => 'Napad',
     ];
 
+    public const FEET = [
+        'right' => 'Desna',
+        'left' => 'Leva',
+        'both' => 'Obe',
+    ];
+
     protected $fillable = [
-        'name', 'slug', 'shirt_number', 'position', 'nationality', 'birth_date', 'height_cm',
-        'joined_year', 'previous_club', 'photo', 'bio', 'is_captain', 'from_academy',
-        'sort_order', 'visible',
+        'name', 'slug', 'shirt_number', 'position', 'nationality', 'birth_date', 'birth_place',
+        'height_cm', 'weight_kg', 'preferred_foot', 'joined_year', 'previous_club', 'photo', 'bio',
+        'is_captain', 'from_academy', 'sort_order', 'visible',
     ];
 
     protected static function booted(): void
@@ -54,5 +61,15 @@ class Player extends Model
     public function getPositionLabelAttribute(): string
     {
         return __('club.positions.' . $this->position);
+    }
+
+    public function getPreferredFootLabelAttribute(): ?string
+    {
+        return $this->preferred_foot ? __('club.team.feet.' . $this->preferred_foot) : null;
+    }
+
+    public function getPhotoUrlAttribute(): ?string
+    {
+        return $this->photo ? Storage::disk('public')->url($this->photo) : null;
     }
 }

@@ -131,6 +131,34 @@ document.querySelectorAll('[data-tabs]').forEach((root) => {
     activate(root.querySelector(`[data-tab="${fromHash}"]`) ? fromHash : buttons[0]?.dataset.tab);
 });
 
+// Player profile dialogs (first team page) ------------------------------
+document.querySelectorAll('[data-player-open]').forEach((button) => {
+    button.addEventListener('click', () => {
+        const dialog = document.getElementById(button.dataset.playerOpen);
+        if (!dialog) return;
+        if (typeof dialog.showModal === 'function') {
+            dialog.showModal();
+        } else {
+            dialog.setAttribute('open', '');
+        }
+        document.body.classList.add('overflow-hidden');
+    });
+});
+
+document.querySelectorAll('dialog.player-profile').forEach((dialog) => {
+    const close = () => {
+        if (dialog.open) dialog.close();
+    };
+    dialog.querySelector('[data-profile-close]')?.addEventListener('click', close);
+    // Click on the backdrop (outside the panel) closes the dialog.
+    dialog.addEventListener('click', (event) => {
+        if (event.target === dialog) close();
+    });
+    dialog.addEventListener('close', () => {
+        document.body.classList.remove('overflow-hidden');
+    });
+});
+
 // Auto-hide flash toast -------------------------------------------------
 const toast = document.getElementById('flash-toast');
 

@@ -8,6 +8,9 @@
 @endphp
 
 <article {{ $attributes->merge(['class' => 'player-card group flex h-full flex-col rounded-sm text-white']) }}>
+    <button type="button" class="player-card__open" data-player-open="player-{{ $player->id }}" aria-haspopup="dialog" aria-controls="player-{{ $player->id }}">
+        <span class="sr-only">{{ __('club.team.view_profile') }}: {{ $player->name }}</span>
+    </button>
     <span class="number-ghost">{{ $player->shirt_number ?? '' }}</span>
 
     <div class="relative aspect-[4/5] overflow-hidden">
@@ -42,7 +45,10 @@
             <span>{{ $player->position_label }}</span>
             @if ($player->age)
                 <span>{{ $player->age }} {{ __('club.team.age') }}</span>
+            @else
+                <span class="text-gold-400 transition group-hover:text-gold-300">{{ __('club.team.view_profile') }} →</span>
             @endif
         </div>
     </div>
 </article>
+<x-player-profile :player="$player" />
