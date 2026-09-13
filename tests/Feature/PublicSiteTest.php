@@ -108,6 +108,46 @@ class PublicSiteTest extends TestCase
             ->assertSee('Pogledaj profil');
     }
 
+    public function test_live_bar_shows_on_home_and_first_team_when_enabled(): void
+    {
+        Setting::set('live_enabled', true);
+        Setting::set('live_url', 'https://www.youtube.com/live/jNQXAC9IVRw');
+        Setting::set('live_title', 'Železničar – Sinđelić');
+
+        foreach (['/sr', '/sr/prvi-tim'] as $url) {
+            $this->get($url)
+                ->assertOk()
+                ->assertSee('Uživo sada')
+                ->assertSee('Železničar – Sinđelić')
+                ->assertSee('https://www.youtube-nocookie.com/embed/jNQXAC9IVRw?autoplay=1', false);
+        }
+
+        // Deliberately not sitewide — news keeps its own chrome.
+        $this->get('/vesti')->assertOk()->assertDontSee('Uživo sada');
+    }
+
+    public function test_live_bar_hidden_when_switched_off_or_link_missing(): void
+    {
+        Setting::set('live_url', 'https://www.youtube.com/live/jNQXAC9IVRw');
+        Setting::set('live_enabled', false);
+        $this->get('/sr')->assertOk()->assertDontSee('Uživo sada');
+
+        Setting::set('live_enabled', true);
+        Setting::set('live_url', '');
+        $this->get('/sr')->assertOk()->assertDontSee('Uživo sada');
+    }
+
+    public function test_live_bar_embeds_a_whole_channel_stream(): void
+    {
+        Setting::set('live_enabled', true);
+        Setting::set('live_url', 'https://www.youtube.com/channel/UCabcdefghijklmnopqrstuv/live');
+
+        $this->get('/sr')
+            ->assertOk()
+            ->assertSee('Prenos uživo')
+            ->assertSee('embed/live_stream?channel=UCabcdefghijklmnopqrstuv', false);
+    }
+
     public function test_youth_page_lists_selections(): void
     {
         YouthSelection::create(['name' => 'U-11', 'birth_years' => '2015/2016']);

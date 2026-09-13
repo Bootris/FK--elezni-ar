@@ -237,6 +237,14 @@ return [
         'match_box' => 'Utakmica',
     ],
 
+    'live' => [
+        'now' => 'Uživo sada',
+        'watch' => 'Gledaj prenos',
+        'close' => 'Zatvori plejer',
+        'dismiss' => 'Sakrij traku',
+        'default_title' => 'Prenos uživo',
+    ],
+
     'video' => [
         'kicker' => 'Železničar TV',
         'page_title' => 'Video',

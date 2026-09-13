@@ -407,6 +407,117 @@ body {
     100% { box-shadow: 0 0 0 0 rgba(215, 38, 45, 0); }
 }
 
+/* "UŽIVO SADA" bar — home and first-team pages, while a broadcast is on */
+.live-bar {
+    position: relative;
+    z-index: 30;
+    color: #fff;
+    background: linear-gradient(90deg, var(--color-red-600, #b71f26), var(--color-red-500));
+    box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.2);
+    animation: live-bar-in 0.45s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes live-bar-in {
+    from { opacity: 0; transform: translateY(-100%); }
+    to { opacity: 1; transform: none; }
+}
+
+.live-bar .live-dot {
+    background: #fff;
+    box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.7);
+    animation: live-pulse-light 2s infinite;
+}
+
+@keyframes live-pulse-light {
+    0%   { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.65); }
+    70%  { box-shadow: 0 0 0 8px rgba(255, 255, 255, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0); }
+}
+
+.live-bar__cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-shrink: 0;
+    border-radius: 0.2rem;
+    background: #fff;
+    padding: 0.4rem 0.85rem;
+    font-family: var(--font-display);
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-navy-950);
+    cursor: pointer;
+    transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.live-bar__cta:hover {
+    transform: translateY(-1px);
+    background: var(--color-gold-400);
+}
+
+.live-bar__dismiss {
+    flex-shrink: 0;
+    display: grid;
+    place-items: center;
+    width: 1.75rem;
+    height: 1.75rem;
+    border-radius: 0.2rem;
+    color: rgba(255, 255, 255, 0.75);
+    cursor: pointer;
+    transition: background 0.2s ease, color 0.2s ease;
+}
+
+.live-bar__dismiss:hover {
+    background: rgba(0, 0, 0, 0.18);
+    color: #fff;
+}
+
+/* Live player dialog */
+.live-modal {
+    width: min(100% - 2rem, 64rem);
+    max-height: calc(100dvh - 2rem);
+    margin: auto;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    overflow: visible;
+}
+
+.live-modal::backdrop {
+    background: rgba(8, 15, 34, 0.85);
+    backdrop-filter: blur(3px);
+}
+
+.live-modal__panel {
+    max-height: calc(100dvh - 2rem);
+    overflow-y: auto;
+    border-radius: 0.25rem;
+    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.55);
+}
+
+.live-modal__close {
+    display: grid;
+    place-items: center;
+    width: 2.25rem;
+    height: 2.25rem;
+    flex-shrink: 0;
+    border-radius: 0.25rem;
+    background: rgba(255, 255, 255, 0.10);
+    color: #fff;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.live-modal__close:hover {
+    background: var(--color-red-500);
+}
+
+.live-modal[open] {
+    animation: profile-in 0.22s ease-out;
+}
+
 /* Latest-headlines ticker */
 .ticker-mask {
     -webkit-mask-image: linear-gradient(90deg, transparent, #000 5%, #000 95%, transparent);
@@ -646,6 +757,8 @@ body {
 
 @media (prefers-reduced-motion: reduce) {
     .live-dot,
+    .live-bar,
+    .live-modal[open],
     .ticker-track { animation: none; }
 }
 

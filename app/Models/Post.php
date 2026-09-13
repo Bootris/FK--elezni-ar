@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Support\VideoEmbed;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -64,18 +65,6 @@ class Post extends Model
     /** YouTube/Vimeo URL converted to an embeddable iframe src, or null. */
     public function getVideoEmbedUrlAttribute(): ?string
     {
-        if (! $this->video_url) {
-            return null;
-        }
-
-        if (preg_match('~(?:youtube\.com/(?:watch\?v=|shorts/|embed/)|youtu\.be/)([\w-]{11})~', $this->video_url, $m)) {
-            return "https://www.youtube-nocookie.com/embed/{$m[1]}";
-        }
-
-        if (preg_match('~vimeo\.com/(?:video/)?(\d+)~', $this->video_url, $m)) {
-            return "https://player.vimeo.com/video/{$m[1]}";
-        }
-
-        return null;
+        return VideoEmbed::url($this->video_url);
     }
 }

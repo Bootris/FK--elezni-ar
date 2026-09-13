@@ -2,10 +2,12 @@
 
 namespace Tests\Feature;
 
+use App\Filament\Pages\ManageSettings;
 use App\Models\Category;
 use App\Models\ContactMessage;
 use App\Models\FootballMatch;
 use App\Models\Photo;
+use App\Models\Setting;
 use App\Models\Player;
 use App\Models\Post;
 use App\Models\StaffMember;
@@ -14,6 +16,7 @@ use App\Models\User;
 use App\Models\YouthApplication;
 use App\Models\YouthSelection;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Livewire\Livewire;
 use Tests\TestCase;
 
 class AdminPanelTest extends TestCase
@@ -104,6 +107,36 @@ class AdminPanelTest extends TestCase
             ->assertOk();
 
         $this->assertNotNull($message->fresh()->read_at);
+    }
+
+    public function test_live_stream_settings_save_and_reject_unembeddable_links(): void
+    {
+        $this->actingAs($this->admin());
+
+        Livewire::test(ManageSettings::class)
+            ->fillForm([
+                'live_enabled' => true,
+                'live_url' => 'https://www.youtube.com/@FKZeleznicarNis/live',
+                'live_title' => 'Prenos',
+            ])
+            ->call('save')
+            ->assertHasFormErrors(['live_url']);
+
+        Livewire::test(ManageSettings::class)
+            ->fillForm([
+                // The settings form saves as a whole, so the required identity fields come along.
+                'site_name' => 'FK Železničar Niš',
+                'club_short_name' => 'Železničar',
+                'bank_account' => '160-0000000000000-00',
+                'live_enabled' => true,
+                'live_url' => 'https://www.youtube.com/live/jNQXAC9IVRw',
+                'live_title' => 'Železničar – Sinđelić',
+            ])
+            ->call('save')
+            ->assertHasNoFormErrors();
+
+        $this->assertSame('https://www.youtube.com/live/jNQXAC9IVRw', Setting::get('live_url'));
+        $this->assertSame('Železničar – Sinđelić', Setting::get('live_title'));
     }
 
     public function test_editor_can_manage_content_but_not_users_or_settings(): void

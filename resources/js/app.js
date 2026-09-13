@@ -131,31 +131,79 @@ document.querySelectorAll('[data-tabs]').forEach((root) => {
     activate(root.querySelector(`[data-tab="${fromHash}"]`) ? fromHash : buttons[0]?.dataset.tab);
 });
 
-// Player profile dialogs (first team page) ------------------------------
-document.querySelectorAll('[data-player-open]').forEach((button) => {
-    button.addEventListener('click', () => {
-        const dialog = document.getElementById(button.dataset.playerOpen);
-        if (!dialog) return;
-        if (typeof dialog.showModal === 'function') {
-            dialog.showModal();
-        } else {
-            dialog.setAttribute('open', '');
-        }
-        document.body.classList.add('overflow-hidden');
-    });
-});
+// Modal dialogs (player profiles, live stream) --------------------------
+const openDialog = (dialog) => {
+    if (!dialog) return;
+    if (typeof dialog.showModal === 'function') {
+        dialog.showModal();
+    } else {
+        dialog.setAttribute('open', '');
+    }
+    document.body.classList.add('overflow-hidden');
+};
 
-document.querySelectorAll('dialog.player-profile').forEach((dialog) => {
+const wireDialog = (dialog, closeSelector) => {
     const close = () => {
         if (dialog.open) dialog.close();
     };
-    dialog.querySelector('[data-profile-close]')?.addEventListener('click', close);
+    dialog.querySelector(closeSelector)?.addEventListener('click', close);
     // Click on the backdrop (outside the panel) closes the dialog.
     dialog.addEventListener('click', (event) => {
         if (event.target === dialog) close();
     });
     dialog.addEventListener('close', () => {
         document.body.classList.remove('overflow-hidden');
+    });
+};
+
+// Player profiles (first team page).
+document.querySelectorAll('[data-player-open]').forEach((button) => {
+    button.addEventListener('click', () => openDialog(document.getElementById(button.dataset.playerOpen)));
+});
+document.querySelectorAll('dialog.player-profile').forEach((dialog) => wireDialog(dialog, '[data-profile-close]'));
+
+// Live stream bar (home + first team). The iframe stays empty until the viewer
+// opens it, so YouTube is never contacted on a page they only scroll past, and
+// clearing it on close actually stops the audio.
+const liveBar = document.querySelector('[data-live-bar]');
+
+if (liveBar) {
+    const dismissKey = `live-dismissed:${liveBar.dataset.liveKey}`;
+    let dismissed = false;
+    try {
+        dismissed = sessionStorage.getItem(dismissKey) === '1';
+    } catch {
+        /* private mode — show the bar */
+    }
+
+    if (dismissed) {
+        liveBar.remove();
+    } else {
+        liveBar.querySelector('[data-live-dismiss]')?.addEventListener('click', () => {
+            liveBar.remove();
+            try {
+                sessionStorage.setItem(dismissKey, '1');
+            } catch {
+                /* nothing to remember it with — it comes back on the next page */
+            }
+        });
+    }
+}
+
+document.querySelectorAll('[data-live-open]').forEach((button) => {
+    button.addEventListener('click', () => {
+        const dialog = document.getElementById(button.dataset.liveOpen);
+        const frame = dialog?.querySelector('iframe[data-live-src]');
+        if (frame && !frame.src) frame.src = frame.dataset.liveSrc;
+        openDialog(dialog);
+    });
+});
+
+document.querySelectorAll('dialog.live-modal').forEach((dialog) => {
+    wireDialog(dialog, '[data-live-close]');
+    dialog.addEventListener('close', () => {
+        const frame = dialog.querySelector('iframe[data-live-src]');
+        if (frame) frame.removeAttribute('src');
     });
 });
 

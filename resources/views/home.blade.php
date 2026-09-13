@@ -7,6 +7,8 @@
 
 <x-site-layout>
 
+    <x-live-bar />
+
     {{-- ===== HERO ===== --}}
     <section class="relative overflow-hidden bg-navy-950 text-white">
         @if ($heroImage)

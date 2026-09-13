@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Posts\Schemas;
 
+use App\Rules\EmbeddableVideoUrl;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\RichEditor;
@@ -96,8 +97,8 @@ class PostForm
                             ->helperText('Prikazuje se na vrhu vesti i na karticama.'),
                         TextInput::make('video_url')
                             ->label('Video (YouTube / Vimeo link)')
-                            ->url()
-                            ->helperText('Vest sa videom se automatski pojavljuje i u sekciji Video.'),
+                            ->rule(new EmbeddableVideoUrl())
+                            ->helperText('Radi i link prenosa uživo (youtube.com/live/…). Vest sa videom se automatski pojavljuje i u sekciji Video.'),
                     ]),
 
                 Section::make('SEO')

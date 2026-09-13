@@ -237,6 +237,14 @@ return [
         'match_box' => 'Match',
     ],
 
+    'live' => [
+        'now' => 'Live now',
+        'watch' => 'Watch live',
+        'close' => 'Close player',
+        'dismiss' => 'Hide bar',
+        'default_title' => 'Live broadcast',
+    ],
+
     'video' => [
         'kicker' => 'Železničar TV',
         'page_title' => 'Video',

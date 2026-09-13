@@ -6,6 +6,8 @@
 
 <x-site-layout :title="__('club.team.page_title')" :description="__('club.team.subtitle')">
 
+    <x-live-bar />
+
     <section class="relative overflow-hidden bg-navy-950 bg-pitch bg-spot text-white">
         <x-wordmark :text="$site['season'] ?? ''" align="right" />
         <div class="relative mx-auto max-w-[100rem] px-6 py-14 sm:py-20">

@@ -3,10 +3,12 @@
 namespace App\Filament\Pages;
 
 use App\Models\Setting;
+use App\Rules\EmbeddableVideoUrl;
 use BackedEnum;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Toggle;
 use Filament\Notifications\Notification;
 use Filament\Pages\Page;
 use Filament\Schemas\Components\Section;
@@ -96,6 +98,30 @@ class ManageSettings extends Page
                                             ->directory('branding')
                                             ->helperText('Široka fotografija (npr. stadion, navijači). Tamni se automatski.')
                                             ->columnSpanFull(),
+                                    ]),
+                            ]),
+
+                        Tab::make('Prenos uživo')
+                            ->icon(Heroicon::OutlinedVideoCamera)
+                            ->schema([
+                                Section::make('Traka „UŽIVO SADA“')
+                                    ->columns(2)
+                                    ->description('Dok je uključena, na početnoj strani i na strani Prvi tim iskače crvena traka sa prenosom. Klikom na nju prenos se otvara u plejeru, bez napuštanja sajta. Isključi je kad se prenos završi.')
+                                    ->components([
+                                        Toggle::make('live_enabled')
+                                            ->label('Uključi traku „UŽIVO SADA“')
+                                            ->columnSpanFull(),
+                                        TextInput::make('live_url')
+                                            ->label('Link prenosa')
+                                            ->rule(new EmbeddableVideoUrl())
+                                            ->columnSpanFull()
+                                            ->helperText('Jedan prenos: nalepi link sa YouTube-a (youtube.com/live/… ili watch?v=…). Uvek ono što je trenutno uživo na kanalu: nalepi ID kanala koji počinje sa UC…, ili link youtube.com/channel/UC…/live'),
+                                        TextInput::make('live_title')
+                                            ->label('Naslov prenosa')
+                                            ->helperText('Npr. „Železničar – Sinđelić, 12. kolo“. Ako je prazno, piše samo „Prenos uživo“.'),
+                                        TextInput::make('live_note')
+                                            ->label('Dodatni tekst')
+                                            ->helperText('Npr. „Stadion Čair, 16.00“. Opciono.'),
                                     ]),
                             ]),
 
