@@ -65,7 +65,7 @@ php artisan fsn:sync --dry-run  # samo prikaži šta bi bilo upisano
 ```
 
 Izvor je `FSN_LEAGUE_URL` u `.env` (podrazumevano Druga niška liga). Komanda je
-zakazana nedeljom u 23:00 u `routes/console.php`; na serveru treba cron
+zakazana nedeljom u 21:00 u `routes/console.php`; na serveru treba cron
 `* * * * * php artisan schedule:run`. Redovi tabele koji više nisu na sajtu se
 brišu, utakmice se prepoznaju po kolu, a status koji je ručno postavljen u
 adminu (npr. odložena) ostaje dok FSN ne objavi rezultat.

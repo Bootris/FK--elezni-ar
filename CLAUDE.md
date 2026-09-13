@@ -40,7 +40,7 @@ Club: `Player`, `StaffMember` (department: first_team / youth / club, optional
 `Photo` (gallery albums), `YouthApplication` (enrolment inbox with status).
 `StandingRow` and first-team `FootballMatch` rows are fed by `fsn:sync`
 (`app/Console/Commands/FsnSync.php` + `app/Services/FsnLeagueParser.php`, source in
-`config('site.fsn')`), scheduled weekly (Sunday 23:00) in `routes/console.php`.
+`config('site.fsn')`), scheduled weekly (Sunday 21:00) in `routes/console.php`.
 
 Migrations: `2026_07_20_…site_content_tables` (core) and `2026_09_05_…club_tables`.
 Seeding: `DatabaseSeeder` (admin, categories, settings) + `ZeleznicarDemoSeeder`
