@@ -21,6 +21,8 @@ reusable **site-core** (Laravel backend + Filament admin, same base as the
 - **Admin path is secret & per-client:** `config('site.admin_path')` from
   `ADMIN_PATH`. Never hardcode `/admin` outside tests.
 - **Two roles:** `admin` (everything) and `editor` (content only — no Users/Settings).
+  Live broadcasts are match-day content, so `ManageLiveStream` (Sadržaj group) is
+  open to `editor` too; it writes the `live_*` Settings keys.
 - **No online payments.** "Podrži klub" only shows bank details from Settings.
 - **Matches are stored from the club's perspective** (`opponent`, `is_home`,
   `our_score`, `their_score`); `FootballMatch` accessors derive home/away display.
@@ -59,8 +61,11 @@ npm run build              # Vite/Tailwind build (required before serving/testin
 
 - Layout: `resources/views/components/site-layout.blade.php` (header with
   ticker, nav, CTA buttons, mobile menu, footer, sticky mobile CTA bar).
-- Components: `post-card`, `player-card`, `staff-card`, `match-card`, `match-row`,
-  `standings-table`, `section-heading`, `cta-band`, `flash`.
+- Components: `post-card`, `player-card`, `player-profile`, `staff-card`, `match-card`,
+  `match-row`, `standings-table`, `section-heading`, `cta-band`, `flash`, `live-bar`
+  (the „UŽIVO SADA“ strip, mounted on `home` and `team/index` only).
+- Video links (posts and the live bar) all go through `App\Support\VideoEmbed`;
+  `App\Rules\EmbeddableVideoUrl` rejects links it cannot embed at save time.
 - Pages: `home`, `news/{index,show}`, `video/index`, `team/index`, `youth/index`
   (enrolment form at `#upis`), `support/index`, `contact/index`.
 - Design tokens: `@theme` in `resources/css/app.css` (navy / red / gold / surface / ink),

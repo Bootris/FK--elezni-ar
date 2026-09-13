@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Filament\Pages\ManageLiveStream;
 use App\Filament\Pages\ManageSettings;
 use App\Models\Category;
 use App\Models\ContactMessage;
@@ -78,6 +79,7 @@ class AdminPanelTest extends TestCase
             '/admin/contact-messages',
             '/admin/users',
             '/admin/manage-settings',
+            '/admin/manage-live-stream',
         ] as $url) {
             $this->actingAs($admin)->get($url)->assertOk();
         }
@@ -109,34 +111,75 @@ class AdminPanelTest extends TestCase
         $this->assertNotNull($message->fresh()->read_at);
     }
 
-    public function test_live_stream_settings_save_and_reject_unembeddable_links(): void
+    public function test_live_stream_page_saves_and_rejects_unembeddable_links(): void
     {
         $this->actingAs($this->admin());
 
-        Livewire::test(ManageSettings::class)
+        Livewire::test(ManageLiveStream::class)
             ->fillForm([
                 'live_enabled' => true,
                 'live_url' => 'https://www.youtube.com/@FKZeleznicarNis/live',
-                'live_title' => 'Prenos',
             ])
             ->call('save')
             ->assertHasFormErrors(['live_url']);
 
-        Livewire::test(ManageSettings::class)
+        Livewire::test(ManageLiveStream::class)
             ->fillForm([
-                // The settings form saves as a whole, so the required identity fields come along.
-                'site_name' => 'FK Železničar Niš',
-                'club_short_name' => 'Železničar',
-                'bank_account' => '160-0000000000000-00',
                 'live_enabled' => true,
                 'live_url' => 'https://www.youtube.com/live/jNQXAC9IVRw',
                 'live_title' => 'Železničar – Sinđelić',
+                'live_note' => 'Stadion Čair',
             ])
             ->call('save')
             ->assertHasNoFormErrors();
 
         $this->assertSame('https://www.youtube.com/live/jNQXAC9IVRw', Setting::get('live_url'));
         $this->assertSame('Železničar – Sinđelić', Setting::get('live_title'));
+        $this->assertTrue(filter_var(Setting::get('live_enabled'), FILTER_VALIDATE_BOOLEAN));
+    }
+
+    public function test_editor_can_start_and_stop_a_live_broadcast(): void
+    {
+        $this->actingAs($this->editor())->get('/admin/manage-live-stream')->assertOk();
+
+        Livewire::actingAs($this->editor())
+            ->test(ManageLiveStream::class)
+            ->fillForm([
+                'live_enabled' => true,
+                'live_url' => 'https://www.youtube.com/live/jNQXAC9IVRw',
+                'live_title' => 'Prenos utakmice',
+            ])
+            ->call('save')
+            ->assertHasNoFormErrors();
+
+        $this->assertTrue(filter_var(Setting::get('live_enabled'), FILTER_VALIDATE_BOOLEAN));
+
+        // The one-click stop button takes the bar down without touching the link.
+        Livewire::actingAs($this->editor())
+            ->test(ManageLiveStream::class)
+            ->callAction('stop');
+
+        $this->assertFalse(filter_var(Setting::get('live_enabled'), FILTER_VALIDATE_BOOLEAN));
+        $this->assertSame('https://www.youtube.com/live/jNQXAC9IVRw', Setting::get('live_url'));
+    }
+
+    public function test_saving_site_settings_leaves_the_live_broadcast_alone(): void
+    {
+        Setting::set('live_enabled', true);
+        Setting::set('live_url', 'https://www.youtube.com/live/jNQXAC9IVRw');
+
+        Livewire::actingAs($this->admin())
+            ->test(ManageSettings::class)
+            ->fillForm([
+                'site_name' => 'FK Železničar Niš',
+                'club_short_name' => 'Železničar',
+                'bank_account' => '160-0000000000000-00',
+            ])
+            ->call('save')
+            ->assertHasNoFormErrors();
+
+        $this->assertTrue(filter_var(Setting::get('live_enabled'), FILTER_VALIDATE_BOOLEAN));
+        $this->assertSame('https://www.youtube.com/live/jNQXAC9IVRw', Setting::get('live_url'));
     }
 
     public function test_editor_can_manage_content_but_not_users_or_settings(): void
@@ -146,6 +189,7 @@ class AdminPanelTest extends TestCase
         $this->actingAs($editor)->get('/admin/posts')->assertOk();
         $this->actingAs($editor)->get('/admin/players')->assertOk();
         $this->actingAs($editor)->get('/admin/youth-applications')->assertOk();
+        $this->actingAs($editor)->get('/admin/manage-live-stream')->assertOk();
         $this->actingAs($editor)->get('/admin/users')->assertForbidden();
         $this->actingAs($editor)->get('/admin/manage-settings')->assertForbidden();
     }
