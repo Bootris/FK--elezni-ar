@@ -2,21 +2,17 @@
 
 namespace App\Console\Commands;
 
-use App\Models\FootballMatch;
 use App\Models\Setting;
-use App\Models\StandingRow;
 use App\Services\FsnLeagueParser;
+use App\Services\LeagueSync;
 use Illuminate\Console\Command;
-use Illuminate\Support\Carbon;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Http;
 use RuntimeException;
 
 /**
- * Pulls the league table and the first team's fixtures/results from the
- * Fudbalski savez Niša site (config: site.fsn). Safe to re-run: rows are
- * upserted, teams that left the table are removed, statuses set by hand in
- * the admin (e.g. "odložena") survive until FSN publishes a score.
+ * Pulls the league table and the first team's whole fixture list from the
+ * Fudbalski savez Niša site (config: site.fsn). Safe to re-run — see LeagueSync
+ * for the upsert rules. For results the same evening see `srbijasport:sync`.
  */
 class FsnSync extends Command
 {
@@ -33,7 +29,8 @@ class FsnSync extends Command
         $url = $this->option('url') ?: config('site.fsn.url');
         $file = $this->option('file');
         $league = config('site.fsn.league_name');
-        $club = Setting::get('club_short_name', config('site.short_name'));
+        $sync = LeagueSync::forClub();
+        $club = $sync->club();
 
         $source = $file ? $this->read($file) : $this->fetch($url);
         $page = $parser->parse($source);
@@ -59,7 +56,7 @@ class FsnSync extends Command
         $matches = $matches->unique(fn (array $m) => "{$m['round']}|{$m['home']}|{$m['away']}");
 
         $ours = $matches
-            ->filter(fn (array $m) => $this->isClub($m['home'], $club) || $this->isClub($m['away'], $club))
+            ->filter(fn (array $m) => $sync->isOurs($m))
             ->sortBy('round')
             ->values();
 
@@ -82,8 +79,8 @@ class FsnSync extends Command
             return self::SUCCESS;
         }
 
-        $this->syncStandings($page['standings'], $club);
-        $skipped = $this->syncMatches($ours, $league, $club);
+        $sync->standings($page['standings'], config('site.fsn.competition'));
+        $skipped = $sync->matches($ours, $league);
         Setting::set('league_name', $league);
 
         $this->info("Upisano: tabela ({$teams} timova) i ".($ours->count() - $skipped).' utakmica.'
@@ -111,71 +108,5 @@ class FsnSync extends Command
             : $request->asForm()->post($url, ['round' => $round]);
 
         return $response->throw()->body();
-    }
-
-    private function isClub(string $team, string $club): bool
-    {
-        return mb_strtolower($team) === mb_strtolower($club);
-    }
-
-    /** @param list<array<string, int|string>> $rows */
-    private function syncStandings(array $rows, string $club): void
-    {
-        $competition = config('site.fsn.competition');
-
-        foreach ($rows as $row) {
-            StandingRow::updateOrCreate(
-                ['competition' => $competition, 'team' => $row['team']],
-                [...$row, 'form' => null, 'is_club' => $this->isClub($row['team'], $club)], // FSN publishes no form column
-            );
-        }
-
-        StandingRow::where('competition', $competition)
-            ->whereNotIn('team', array_column($rows, 'team'))
-            ->delete();
-    }
-
-    /** @return int number of fixtures skipped because FSN has not scheduled them yet */
-    private function syncMatches(Collection $ours, string $league, string $club): int
-    {
-        $skipped = 0;
-
-        foreach ($ours as $m) {
-            if ($m['date'] === null) {
-                $skipped++;
-
-                continue;
-            }
-
-            $isHome = $this->isClub($m['home'], $club);
-
-            $match = FootballMatch::firstOrNew([
-                'team_type' => 'first',
-                'competition' => $league,
-                'round' => "{$m['round']}. kolo",
-            ]);
-
-            $match->fill([
-                'kickoff_at' => Carbon::createFromFormat('d.m.Y H:i', $m['date'].' '.($m['time'] ?? '00:00')),
-                'opponent' => $isHome ? $m['away'] : $m['home'],
-                'is_home' => $isHome,
-                'our_score' => $isHome ? $m['home_score'] : $m['away_score'],
-                'their_score' => $isHome ? $m['away_score'] : $m['home_score'],
-            ]);
-
-            if ($m['home_score'] !== null) {
-                $match->status = 'finished';
-            } elseif (! $match->exists) {
-                $match->status = 'scheduled';
-            }
-
-            if (! $match->exists) {
-                $match->venue = $isHome ? Setting::get('stadium') : null;
-            }
-
-            $match->save();
-        }
-
-        return $skipped;
     }
 }

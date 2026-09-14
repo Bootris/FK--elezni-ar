@@ -56,4 +56,15 @@ return [
         'competition' => 'first',
     ],
 
+    /*
+    | Fast results feed — srbijasport.net. `php artisan srbijasport:sync` (scheduled
+    | every 15 minutes during the day) pulls the standings and the results of the
+    | round the page currently shows, so scores land on the site the same evening.
+    */
+    'srbijasport' => [
+        'url' => env('SRBIJASPORT_LEAGUE_URL', 'https://srbijasport.net/league/8780-druga-niska-liga'),
+        'league_name' => env('FSN_LEAGUE_NAME', 'Druga niška liga'),
+        'competition' => 'first',
+    ],
+
 ];

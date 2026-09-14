@@ -57,19 +57,26 @@ php artisan test            # feature testovi (SQLite u memoriji)
 Dashboard prikazuje: nove prijave, nepročitane poruke, sledeću utakmicu, broj
 vesti, igrača i selekcija.
 
-### Tabela i raspored sa sajta FS Niš
+### Tabela i rezultati (srbijasport.net + FS Niš)
 
 ```bash
-php artisan fsn:sync            # tabela lige + utakmice prvog tima sa fsn.org.rs
-php artisan fsn:sync --dry-run  # samo prikaži šta bi bilo upisano
-php artisan fsn:sync --file=stranica.html  # uvoz iz sačuvane stranice, bez interneta
+php artisan srbijasport:sync            # tabela + rezultati tekućeg kola sa srbijasport.net
+php artisan srbijasport:sync --dry-run  # samo prikaži šta bi bilo upisano
+php artisan fsn:sync                    # tabela + ceo raspored prvog tima sa fsn.org.rs
+php artisan fsn:sync --file=stranica.html  # uvoz iz sačuvane stranice, bez interneta (--file radi i za srbijasport)
 ```
 
-Izvor je `FSN_LEAGUE_URL` u `.env` (podrazumevano Druga niška liga). Komanda je
-zakazana nedeljom u 21:00 u `routes/console.php`; na serveru treba cron
-`* * * * * php artisan schedule:run`. Redovi tabele koji više nisu na sajtu se
-brišu, utakmice se prepoznaju po kolu, a status koji je ručno postavljen u
-adminu (npr. odložena) ostaje dok FSN ne objavi rezultat.
+Dva izvora, ista pravila upisa (`App\Services\LeagueSync`):
+
+- **srbijasport.net** (`SRBIJASPORT_LEAGUE_URL`) je brzi feed: stranica prikazuje
+  tabelu i jedno (tekuće) kolo, pa je komanda zakazana na svakih 15 minuta od
+  10:00 do 22:30. Rezultat objavljen u toku utakmice (manje od dva sata od
+  početka) upisuje se kao „u toku“, posle toga kao odigran.
+- **fsn.org.rs** (`FSN_LEAGUE_URL`) daje ceo raspored, zakazan nedeljom u 21:00.
+
+Na serveru treba cron `* * * * * php artisan schedule:run`. Redovi tabele koji
+više nisu na sajtu se brišu, utakmice se prepoznaju po kolu, a status koji je
+ručno postavljen u adminu (npr. odložena) ostaje dok izvor ne objavi rezultat.
 
 ## Struktura sajta
 

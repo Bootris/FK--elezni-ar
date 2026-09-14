@@ -38,9 +38,12 @@ Club: `Player`, `StaffMember` (department: first_team / youth / club, optional
 `youth_selection_id`), `YouthSelection` (age groups), `FootballMatch` (table
 `matches`), `StandingRow` (league table rows, `competition` key, default `first`),
 `Photo` (gallery albums), `YouthApplication` (enrolment inbox with status).
-`StandingRow` and first-team `FootballMatch` rows are fed by `fsn:sync`
-(`app/Console/Commands/FsnSync.php` + `app/Services/FsnLeagueParser.php`, source in
-`config('site.fsn')`), scheduled weekly (Sunday 21:00) in `routes/console.php`.
+`StandingRow` and first-team `FootballMatch` rows are fed by two commands that share
+the write rules in `app/Services/LeagueSync.php` (scheduled in `routes/console.php`):
+`srbijasport:sync` (`SrbijasportSync` + `SrbijasportLeagueParser`, `config('site.srbijasport')`,
+table + current round, every 15 min 10:00–22:30 — the live results feed) and `fsn:sync`
+(`FsnSync` + `FsnLeagueParser`, `config('site.fsn')`, table + whole fixture list, Sunday 21:00).
+Both take `--file=` to import a saved page; fixtures for both live in `tests/Fixtures/`.
 
 Migrations: `2026_07_20_…site_content_tables` (core) and `2026_09_05_…club_tables`.
 Seeding: `DatabaseSeeder` (admin, categories, settings) + `ZeleznicarDemoSeeder`
@@ -53,6 +56,7 @@ Seeding: `DatabaseSeeder` (admin, categories, settings) + `ZeleznicarDemoSeeder`
 php artisan migrate --seed # admin user, categories, settings (+ demo when SEED_DEMO=true)
 php artisan test           # feature tests (SQLite :memory:)
 ./check-backend.sh         # smoke-test every public route, exit 0 if healthy
+php artisan srbijasport:sync  # league table + current round from srbijasport.net (--dry-run to preview)
 php artisan fsn:sync       # league table + first-team fixtures from fsn.org.rs (--dry-run to preview)
 npm run build              # Vite/Tailwind build (required before serving/testing views)
 ```
