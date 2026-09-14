@@ -25,6 +25,8 @@ chmod 775 "$APP/database"
 chmod 664 "$APP/database/database.sqlite"
 
 sudo -u www-data php artisan optimize
+# Prvi upis tabele i rezultata odmah po deployu; dalje ih osvezava scheduler (cron: schedule:run).
+sudo -u www-data php artisan srbijasport:sync || echo "⚠️  srbijasport:sync nije uspeo — proveri rucno: php artisan srbijasport:sync"
 rm -rf "$APP/node_modules"          # build artifacts already in public/build
 systemctl restart php8.3-fpm
 systemctl restart fk-queue          # queue worker drzi stari kod u memoriji
