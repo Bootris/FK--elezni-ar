@@ -62,6 +62,7 @@ vesti, igrača i selekcija.
 ```bash
 php artisan fsn:sync            # tabela lige + utakmice prvog tima sa fsn.org.rs
 php artisan fsn:sync --dry-run  # samo prikaži šta bi bilo upisano
+php artisan fsn:sync --file=stranica.html  # uvoz iz sačuvane stranice, bez interneta
 ```
 
 Izvor je `FSN_LEAGUE_URL` u `.env` (podrazumevano Druga niška liga). Komanda je

@@ -109,6 +109,25 @@ class FsnSyncTest extends TestCase
         $this->assertSame('Pomoćni teren', $match->venue);
     }
 
+    public function test_sync_can_import_a_page_saved_to_disk(): void
+    {
+        // No HTTP fake on purpose: with --file nothing may be fetched.
+        Http::preventStrayRequests();
+
+        $this->artisan('fsn:sync', ['--file' => base_path('tests/Fixtures/fsn-druga-niska-liga.html')])
+            ->assertSuccessful();
+
+        $this->assertCount(11, StandingRow::table()->get());
+        $this->assertSame('Jasenovik 2018', StandingRow::table()->first()->team);
+    }
+
+    public function test_sync_reports_a_missing_file_instead_of_guessing(): void
+    {
+        $this->expectExceptionMessage('Fajl ne postoji');
+
+        $this->artisan('fsn:sync', ['--file' => base_path('tests/Fixtures/nema-me.html')]);
+    }
+
     public function test_sync_fails_loudly_when_the_page_has_no_table(): void
     {
         $this->fakeFsn('<html><body><p>Održavanje</p></body></html>');

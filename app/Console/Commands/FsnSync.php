@@ -10,6 +10,7 @@ use Illuminate\Console\Command;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Http;
+use RuntimeException;
 
 /**
  * Pulls the league table and the first team's fixtures/results from the
@@ -21,6 +22,7 @@ class FsnSync extends Command
 {
     protected $signature = 'fsn:sync
         {--url= : Stranica lige na fsn.org.rs (podrazumevano: config site.fsn.url)}
+        {--file= : Umesto preuzimanja, parsiraj sačuvanu HTML stranicu sa diska}
         {--rounds= : Broj kola koja se povlače (podrazumevano: izračunato iz broja timova)}
         {--dry-run : Samo prikaži šta bi bilo upisano}';
 
@@ -29,13 +31,15 @@ class FsnSync extends Command
     public function handle(FsnLeagueParser $parser): int
     {
         $url = $this->option('url') ?: config('site.fsn.url');
+        $file = $this->option('file');
         $league = config('site.fsn.league_name');
         $club = Setting::get('club_short_name', config('site.short_name'));
 
-        $page = $parser->parse($this->fetch($url));
+        $source = $file ? $this->read($file) : $this->fetch($url);
+        $page = $parser->parse($source);
 
         if ($page['standings'] === []) {
-            $this->error("Na {$url} nema tabele — struktura stranice se verovatno promenila.");
+            $this->error('Na '.($file ?: $url).' nema tabele — struktura stranice se verovatno promenila.');
 
             return self::FAILURE;
         }
@@ -45,8 +49,12 @@ class FsnSync extends Command
         $rounds = (int) ($this->option('rounds') ?: ($teams + $teams % 2 - 1) * 2);
 
         $matches = collect($page['matches']);
-        for ($round = 1; $round <= $rounds; $round += 2) { // every page shows two rounds
-            $matches = $matches->merge($parser->parse($this->fetch($url, $round))['matches']);
+
+        // A saved page is one snapshot — there is no server to post further rounds to.
+        if (! $file) {
+            for ($round = 1; $round <= $rounds; $round += 2) { // every page shows two rounds
+                $matches = $matches->merge($parser->parse($this->fetch($url, $round))['matches']);
+            }
         }
         $matches = $matches->unique(fn (array $m) => "{$m['round']}|{$m['home']}|{$m['away']}");
 
@@ -82,6 +90,16 @@ class FsnSync extends Command
             .($skipped ? " Preskočeno jer još nemaju datum: {$skipped}." : ''));
 
         return self::SUCCESS;
+    }
+
+    /** A page saved from the browser — for a one-off import, or when the server cannot reach the source. */
+    private function read(string $path): string
+    {
+        if (! is_file($path)) {
+            throw new RuntimeException("Fajl ne postoji: {$path}");
+        }
+
+        return (string) file_get_contents($path);
     }
 
     private function fetch(string $url, ?int $round = null): string
