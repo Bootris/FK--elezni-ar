@@ -13,7 +13,7 @@
     $locale = app()->getLocale();
 @endphp
 
-<x-site-layout :title="__('club.support.page_title')" :description="$site['support_intro'] ?? __('club.support.subtitle')">
+<x-site-layout :title="__('club.meta.pages.support.title')" :description="__('club.meta.pages.support.description')">
 
     <section class="relative overflow-hidden bg-navy-950 bg-pitch bg-spot text-white">
         <x-wordmark :text="$site['founded_year'] ?? '1928'" align="right" />

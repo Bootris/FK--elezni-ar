@@ -4,7 +4,7 @@
     $order = ['GK', 'DF', 'MF', 'FW'];
 @endphp
 
-<x-site-layout :title="__('club.team.page_title')" :description="__('club.team.subtitle')">
+<x-site-layout :title="__('club.meta.pages.team.title')" :description="__('club.meta.pages.team.description')" :keywords="__('club.meta.pages.team.keywords')">
 
     <x-live-bar />
 

@@ -1,4 +1,4 @@
-<x-site-layout :title="__('club.video.page_title')" :description="__('club.video.page_subtitle')">
+<x-site-layout :title="__('club.meta.pages.video.title')" :description="__('club.meta.pages.video.description')">
 
     <section class="bg-navy-950 bg-pitch text-white">
         <div class="mx-auto max-w-[100rem] px-6 py-14 sm:py-20">

@@ -174,9 +174,18 @@ class ManageSettings extends Page
                             ->schema([
                                 Section::make('Podrazumevani meta podaci')
                                     ->components([
-                                        TextInput::make('seo_title')->label('Naslov sajta u pretraživačima')
-                                            ->helperText('Ako je prazno: „Naziv kluba · slogan“.'),
-                                        Textarea::make('seo_description')->label('Opis sajta')->rows(3)->maxLength(300),
+                                        TextInput::make('seo_title')->label('Naslov početne strane u pretraživačima')
+                                            ->helperText('Ako je prazno, koristi se ugrađeni naslov sa ključnim rečima (škola fudbala, upis mladih, fudbalski klub Niš).'),
+                                        Textarea::make('seo_description')->label('Opis početne strane')->rows(3)->maxLength(300)
+                                            ->helperText('Do 160 znakova je vidljivo u Google rezultatima. Ako je prazno, koristi se ugrađeni opis.'),
+                                    ]),
+                                Section::make('Google Search Console')
+                                    ->description('Bez prijave sajta u Search Console Google može nedeljama da ne primeti novi sajt. Prijavite sajt na search.google.com/search-console, izaberite verifikaciju „HTML oznaka“ i ovde nalepite samo vrednost iz content="…". Zatim u Search Console pošaljite sitemap: /sitemap.xml.')
+                                    ->components([
+                                        TextInput::make('google_site_verification')
+                                            ->label('Google verifikacioni kod')
+                                            ->placeholder('npr. AbC123…')
+                                            ->maxLength(200),
                                     ]),
                             ]),
                     ]),

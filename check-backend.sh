@@ -63,6 +63,7 @@ check_url /sr/kontakt 200
 check_url /vesti 200
 check_url /video 200
 check_url /sitemap.xml 200
+check_url /robots.txt 200
 check_url /api/v1/settings 200
 check_url /api/v1/squad 200
 check_url "/$ADMIN_PATH/login" 200

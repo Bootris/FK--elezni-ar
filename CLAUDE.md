@@ -77,6 +77,12 @@ npm run build              # Vite/Tailwind build (required before serving/testin
   `.rails`, `.slant-top`, `.film`, `.score`, `.form-pill`, `.field`.
 - JS (`resources/js/app.js`): mobile menu, reveal-on-scroll, match countdown,
   copy-to-clipboard, tabs, flash toast. No framework.
+- SEO lives in `site-layout` (title/description/keywords, robots, canonical + hreflang built
+  from `APP_URL`, OG/Twitter, JSON-LD built in the `@php` block because Blade treats `@context`
+  as a directive). Per-page titles/descriptions are `club.meta.pages.*` in the lang files;
+  `robots.txt` and `sitemap.xml` are routes on `SitemapController`, not static files.
+  Settings `seo_title`/`seo_description` override the home page, `google_site_verification`
+  prints the Search Console meta tag.
 
 ## Conventions
 

@@ -1,4 +1,4 @@
-<x-site-layout :title="__('club.news.title')" :description="__('club.news.subtitle')">
+<x-site-layout :title="__('club.meta.pages.news.title')" :description="__('club.meta.pages.news.description')">
 
     <section class="bg-navy-950 bg-pitch text-white">
         <div class="mx-auto max-w-[100rem] px-6 py-14 sm:py-20">

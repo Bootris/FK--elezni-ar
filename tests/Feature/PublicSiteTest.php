@@ -35,7 +35,79 @@ class PublicSiteTest extends TestCase
 
     public function test_root_redirects_to_default_locale(): void
     {
-        $this->get('/')->assertRedirect('/sr');
+        $this->get('/')->assertStatus(301)->assertRedirect('/sr');
+    }
+
+    public function test_pages_carry_seo_meta_canonical_and_hreflang(): void
+    {
+        $base = rtrim(config('app.url'), '/');
+
+        $this->get('/sr')
+            ->assertOk()
+            ->assertSee('<meta name="robots" content="index, follow', false)
+            ->assertSee('<meta name="keywords" content="', false)
+            ->assertSee('škola fudbala Niš')
+            ->assertSee('<link rel="canonical" href="' . $base . '/sr">', false)
+            ->assertSee('<link rel="alternate" hreflang="sr" href="' . $base . '/sr">', false)
+            ->assertSee('<link rel="alternate" hreflang="en" href="' . $base . '/en">', false)
+            ->assertSee('<link rel="alternate" hreflang="x-default" href="' . $base . '/sr">', false)
+            ->assertSee('<meta property="og:locale" content="sr_RS">', false)
+            ->assertSee('"@type":"SportsTeam"', false)
+            ->assertSee('"@type":"WebSite"', false);
+
+        // The JSON-LD must survive Blade compilation ("@context" looks like a directive).
+        preg_match('#<script type="application/ld\+json">\s*(.*?)\s*</script>#s', $this->get('/sr')->getContent(), $m);
+        $jsonLd = json_decode($m[1] ?? '', true);
+        $this->assertSame('https://schema.org', $jsonLd['@context'] ?? null);
+        $this->assertSame('SportsTeam', $jsonLd['@graph'][0]['@type'] ?? null);
+
+        $this->get('/sr/omladinci')
+            ->assertOk()
+            ->assertSee('<title>Škola fudbala Niš · Upis mladih u FK Železničar · ', false)
+            ->assertSee('<link rel="canonical" href="' . $base . '/sr/omladinci">', false)
+            ->assertSee('<link rel="alternate" hreflang="en" href="' . $base . '/en/omladinci">', false);
+
+        $this->get('/en/prvi-tim')
+            ->assertOk()
+            ->assertSee('<meta property="og:locale" content="en_US">', false)
+            ->assertSee('<link rel="alternate" hreflang="sr" href="' . $base . '/sr/prvi-tim">', false);
+
+        // Unprefixed news URLs have a single language version: canonical only, no hreflang.
+        $this->get('/vesti')
+            ->assertOk()
+            ->assertSee('<link rel="canonical" href="' . $base . '/vesti">', false)
+            ->assertDontSee('hreflang=', false);
+    }
+
+    public function test_google_site_verification_meta_appears_only_when_set(): void
+    {
+        $this->get('/sr')->assertDontSee('google-site-verification', false);
+
+        Setting::set('google_site_verification', 'abc123token');
+
+        $this->get('/sr')->assertSee('<meta name="google-site-verification" content="abc123token">', false);
+    }
+
+    public function test_seo_settings_override_home_title_and_description(): void
+    {
+        Setting::set('seo_title', 'Moj naslov');
+        Setting::set('seo_description', 'Moj opis.');
+
+        $this->get('/sr')
+            ->assertSee('<title>Moj naslov</title>', false)
+            ->assertSee('<meta name="description" content="Moj opis.">', false);
+    }
+
+    public function test_robots_txt_points_to_absolute_sitemap(): void
+    {
+        $base = rtrim(config('app.url'), '/');
+
+        $this->get('/robots.txt')
+            ->assertOk()
+            ->assertHeader('Content-Type', 'text/plain; charset=UTF-8')
+            ->assertSee('User-agent: *')
+            ->assertSee('Disallow: /api/')
+            ->assertSee("Sitemap: {$base}/sitemap.xml");
     }
 
     public function test_home_renders_in_both_locales_with_club_ctas(): void
@@ -219,11 +291,15 @@ class PublicSiteTest extends TestCase
     {
         $post = $this->publishedPost();
 
+        $base = rtrim(config('app.url'), '/');
+
         $this->get('/sitemap.xml')
             ->assertOk()
             ->assertHeader('Content-Type', 'application/xml')
             ->assertSee("/vesti/{$post->slug}")
-            ->assertSee('/sr/omladinci');
+            ->assertSee("<loc>{$base}/sr/omladinci</loc>", false)
+            ->assertSee('<xhtml:link rel="alternate" hreflang="en" href="' . $base . '/en/omladinci"/>', false)
+            ->assertSee('<xhtml:link rel="alternate" hreflang="x-default" href="' . $base . '/sr/omladinci"/>', false);
     }
 
     public function test_youth_application_is_stored_and_club_is_notified(): void

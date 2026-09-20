@@ -3,7 +3,7 @@
     $socials = array_filter(['YouTube' => $site['youtube'] ?? null, 'Instagram' => $site['instagram'] ?? null, 'Facebook' => $site['facebook'] ?? null, 'TikTok' => $site['tiktok'] ?? null]);
 @endphp
 
-<x-site-layout :title="__('club.contact.page_title')" :description="__('club.contact.subtitle')">
+<x-site-layout :title="__('club.meta.pages.contact.title')" :description="__('club.meta.pages.contact.description')">
 
     <x-flash key="contact_success" :message="__('club.contact.form.success')" />
 

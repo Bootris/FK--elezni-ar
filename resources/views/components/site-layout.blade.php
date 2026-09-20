@@ -1,4 +1,4 @@
-@props(['title' => null, 'description' => null, 'image' => null])
+@props(['title' => null, 'description' => null, 'image' => null, 'keywords' => null])
 
 @php
     use Illuminate\Support\Facades\Cache;
@@ -8,12 +8,31 @@
     $siteName = $site['site_name'] ?? config('app.name');
     $shortName = $site['club_short_name'] ?? 'Železničar';
     $tagline = $site['tagline'] ?? __('club.hero.kicker');
-    $pageTitle = $title ? "{$title} · {$siteName}" : ($site['seo_title'] ?? "{$siteName} · {$tagline}");
-    $pageDescription = $description ?? ($site['seo_description'] ?? __('club.meta.description'));
+    $pageTitle = $title
+        ? "{$title} · {$siteName}"
+        : (filled($site['seo_title'] ?? null) ? $site['seo_title'] : __('club.meta.title'));
+    $pageDescription = $description
+        ?? (filled($site['seo_description'] ?? null) ? $site['seo_description'] : __('club.meta.description'));
+    $pageKeywords = $keywords ?? __('club.meta.keywords');
     $locale = app()->getLocale();
     $homeUrl = url($locale);
     $logoUrl = !empty($site['logo']) ? Storage::disk('public')->url($site['logo']) : asset('images/logo.png');
     $ogImage = $image ?? url($logoUrl);
+
+    // Canonical and hreflang are built from APP_URL so they always match the sitemap,
+    // whatever host or scheme the request arrived on.
+    $baseUrl = rtrim(config('app.url'), '/');
+    $segments = array_values(array_filter(explode('/', request()->path())));
+    $canonicalUrl = $baseUrl . ($segments ? '/' . implode('/', $segments) : '');
+    $alternateUrls = [];
+    if (in_array($segments[0] ?? null, ['sr', 'en'], true)) {
+        foreach (['sr', 'en'] as $altLocale) {
+            $altSegments = $segments;
+            $altSegments[0] = $altLocale;
+            $alternateUrls[$altLocale] = $baseUrl . '/' . implode('/', $altSegments);
+        }
+    }
+    $ogLocale = $locale === 'en' ? 'en_US' : 'sr_RS';
 
     $navLinks = [
         ['href' => $homeUrl, 'label' => __('club.nav.home')],
@@ -45,6 +64,71 @@
         'TikTok' => $site['tiktok'] ?? null,
     ]);
 
+    // Blade would compile the "@context" key as a directive, so the JSON-LD is built here.
+    $jsonLd = [
+        '@context' => 'https://schema.org',
+        '@graph' => [
+            array_filter([
+                '@type' => 'SportsTeam',
+                '@id' => "{$baseUrl}/#club",
+                'name' => $siteName,
+                'alternateName' => ['Železničar Niš', 'FK Železničar', 'Fudbalski klub Železničar Niš'],
+                'description' => __('club.meta.description'),
+                'keywords' => __('club.meta.keywords'),
+                'sport' => 'Football',
+                'url' => "{$baseUrl}/{$locale}",
+                'logo' => url($logoUrl),
+                'image' => url($logoUrl),
+                'foundingDate' => $site['founded_year'] ?? '1928',
+                'address' => array_filter([
+                    '@type' => 'PostalAddress',
+                    'streetAddress' => $site['address'] ?? null,
+                    'addressLocality' => $site['city'] ?? 'Niš',
+                    'addressRegion' => 'Nišavski okrug',
+                    'addressCountry' => 'RS',
+                ]),
+                'areaServed' => ['@type' => 'City', 'name' => $site['city'] ?? 'Niš'],
+                'location' => filled($site['stadium'] ?? null)
+                    ? ['@type' => 'StadiumOrArena', 'name' => $site['stadium'], 'address' => ['@type' => 'PostalAddress', 'addressLocality' => $site['city'] ?? 'Niš', 'addressCountry' => 'RS']]
+                    : null,
+                'memberOf' => filled($site['league_name'] ?? null)
+                    ? ['@type' => 'SportsOrganization', 'name' => $site['league_name']]
+                    : null,
+                'telephone' => $site['phone'] ?? null,
+                'email' => $site['email'] ?? null,
+                'contactPoint' => array_values(array_filter([
+                    filled($site['youth_phone'] ?? null) || filled($site['youth_email'] ?? null)
+                        ? array_filter(['@type' => 'ContactPoint', 'contactType' => 'Upis u školu fudbala', 'telephone' => $site['youth_phone'] ?? null, 'email' => $site['youth_email'] ?? null, 'availableLanguage' => ['sr', 'en']])
+                        : null,
+                ])),
+                'sameAs' => array_values($socials),
+                'potentialAction' => [
+                    '@type' => 'RegisterAction',
+                    'name' => __('club.cta.enroll_long'),
+                    'target' => route('youth.index', $locale) . '#upis',
+                ],
+            ], fn ($v) => $v !== null && $v !== [] && $v !== ''),
+            [
+                '@type' => 'WebSite',
+                '@id' => "{$baseUrl}/#website",
+                'name' => $siteName,
+                'url' => $baseUrl,
+                'inLanguage' => ['sr', 'en'],
+                'publisher' => ['@id' => "{$baseUrl}/#club"],
+            ],
+            [
+                '@type' => 'WebPage',
+                '@id' => $canonicalUrl,
+                'url' => $canonicalUrl,
+                'name' => $pageTitle,
+                'description' => $pageDescription,
+                'inLanguage' => $locale,
+                'isPartOf' => ['@id' => "{$baseUrl}/#website"],
+                'about' => ['@id' => "{$baseUrl}/#club"],
+            ],
+        ],
+    ];
+
     // Home matches only on the exact URL — every locale-prefixed page starts with it.
     $isActive = fn (string $href) => $href === $homeUrl
         ? rtrim(url()->current(), '/') === rtrim($homeUrl, '/')
@@ -58,15 +142,40 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ $pageTitle }}</title>
     <meta name="description" content="{{ $pageDescription }}">
+    <meta name="keywords" content="{{ $pageKeywords }}">
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+    <meta name="author" content="{{ $siteName }}">
+    <meta name="geo.region" content="RS">
+    <meta name="geo.placename" content="{{ $site['city'] ?? 'Niš' }}">
     <meta name="theme-color" content="#112444">
+    @if (filled($site['google_site_verification'] ?? null))
+        <meta name="google-site-verification" content="{{ $site['google_site_verification'] }}">
+    @endif
     <meta property="og:title" content="{{ $pageTitle }}">
     <meta property="og:description" content="{{ $pageDescription }}">
     <meta property="og:type" content="website">
-    <meta property="og:url" content="{{ url()->current() }}">
+    <meta property="og:url" content="{{ $canonicalUrl }}">
     <meta property="og:image" content="{{ $ogImage }}">
+    <meta property="og:image:alt" content="{{ $siteName }}">
     <meta property="og:site_name" content="{{ $siteName }}">
+    <meta property="og:locale" content="{{ $ogLocale }}">
+    @foreach ($alternateUrls as $altLocale => $altUrl)
+        @if ($altLocale !== $locale)
+            <meta property="og:locale:alternate" content="{{ $altLocale === 'en' ? 'en_US' : 'sr_RS' }}">
+        @endif
+    @endforeach
     <meta name="twitter:card" content="summary_large_image">
-    <link rel="canonical" href="{{ url()->current() }}">
+    <meta name="twitter:title" content="{{ $pageTitle }}">
+    <meta name="twitter:description" content="{{ $pageDescription }}">
+    <meta name="twitter:image" content="{{ $ogImage }}">
+    <link rel="canonical" href="{{ $canonicalUrl }}">
+    @foreach ($alternateUrls as $altLocale => $altUrl)
+        <link rel="alternate" hreflang="{{ $altLocale }}" href="{{ $altUrl }}">
+    @endforeach
+    @if (isset($alternateUrls['sr']))
+        <link rel="alternate" hreflang="x-default" href="{{ $alternateUrls['sr'] }}">
+    @endif
+    <link rel="sitemap" type="application/xml" href="{{ $baseUrl }}/sitemap.xml">
     <link rel="icon" href="{{ $logoUrl }}">
     <link rel="apple-touch-icon" href="{{ $logoUrl }}">
 
@@ -77,17 +186,7 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
     <script type="application/ld+json">
-    {!! json_encode([
-        '@context' => 'https://schema.org',
-        '@type' => 'SportsTeam',
-        'name' => $siteName,
-        'sport' => 'Football',
-        'url' => $homeUrl,
-        'logo' => url($logoUrl),
-        'foundingDate' => $site['founded_year'] ?? '1928',
-        'address' => ['@type' => 'PostalAddress', 'addressLocality' => $site['city'] ?? 'Niš', 'addressCountry' => 'RS'],
-        'sameAs' => array_values($socials),
-    ], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) !!}
+    {!! json_encode($jsonLd, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) !!}
     </script>
 </head>
 

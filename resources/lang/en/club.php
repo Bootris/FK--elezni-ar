@@ -3,7 +3,37 @@
 return [
 
     'meta' => [
-        'description' => 'FK Železničar Niš, the official club website. News, first team, youth academy, enrolment for new players and supporting the club.',
+        'title' => 'FK Železničar Niš · Football Club Niš · Football School & Youth Enrolment',
+        'description' => 'FK Železničar Niš, a football club from Niš, Serbia, since 1928. Football school and youth enrolment in Niš, first team in the Second Niš League, news, results, video and club support.',
+        'keywords' => 'FK Železničar Niš, Železničar Niš, football club Niš, football school Niš, youth enrolment Niš, youth academy Niš, first team Železničar Niš, football Niš, kids football training Niš',
+        'pages' => [
+            'team' => [
+                'title' => 'First team Železničar Niš · Squad, fixtures, results, table',
+                'description' => 'FK Železničar Niš first team: squad, coaching staff, fixtures, results and the league table. Follow the football club from Niš round by round.',
+                'keywords' => 'first team Železničar Niš, FK Železničar Niš squad, Železničar Niš fixtures, Železničar Niš results, football club Niš',
+            ],
+            'youth' => [
+                'title' => 'Football School Niš · Youth Enrolment at FK Železničar',
+                'description' => 'Youth enrolment at the FK Železničar Niš football school, for children aged 5 to 19. Licensed coaches, training three times a week, first session free. Apply online.',
+                'keywords' => 'football school Niš, youth enrolment Niš, kids football Niš, youth academy Niš, football training for children Niš, FK Železničar Niš academy',
+            ],
+            'support' => [
+                'title' => 'Support the club · Donate to FK Železničar Niš',
+                'description' => 'Support FK Železničar Niš with a bank transfer. Every donation goes into the football school, equipment and competitions of the club from Niš.',
+            ],
+            'contact' => [
+                'title' => 'Contact · FK Železničar Niš',
+                'description' => 'Contact FK Železničar Niš: phone, email, address and stadium location. Questions about football school enrolment, partnerships or the first team.',
+            ],
+            'news' => [
+                'title' => 'News · FK Železničar Niš',
+                'description' => 'Latest news from FK Železničar Niš: first team, football school, matches, results and club events.',
+            ],
+            'video' => [
+                'title' => 'Video · Železničar TV',
+                'description' => 'FK Železničar Niš videos: first-team matches, football school training sessions and club events.',
+            ],
+        ],
     ],
 
     'nav' => [

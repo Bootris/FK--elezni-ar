@@ -3,7 +3,37 @@
 return [
 
     'meta' => [
-        'description' => 'FK Železničar Niš, zvanični sajt kluba. Vesti, prvi tim, omladinska škola, upis novih igrača i podrška klubu.',
+        'title' => 'FK Železničar Niš · Fudbalski klub Niš · Škola fudbala i upis mladih',
+        'description' => 'FK Železničar Niš, fudbalski klub iz Niša od 1928. Škola fudbala i upis mladih u Nišu, prvi tim Železničara u Drugoj niškoj ligi, vesti, rezultati, video i podrška klubu.',
+        'keywords' => 'FK Železničar Niš, Železničar Niš, fudbalski klub Niš, škola fudbala Niš, upis mladih u Nišu, upis dece u fudbal Niš, omladinska škola fudbala Niš, prvi tim Železničar Niš, fudbal Niš, treninzi fudbala za decu Niš, Druga niška liga',
+        'pages' => [
+            'team' => [
+                'title' => 'Prvi tim Železničar Niš · Igrači, raspored, rezultati, tabela',
+                'description' => 'Prvi tim FK Železničar Niš: sastav, stručni štab, raspored utakmica, rezultati i tabela Druge niške lige. Pratite fudbalski klub iz Niša iz kola u kolo.',
+                'keywords' => 'prvi tim Železničar Niš, FK Železničar Niš igrači, raspored utakmica Železničar Niš, rezultati Železničar Niš, tabela Druga niška liga, fudbalski klub Niš',
+            ],
+            'youth' => [
+                'title' => 'Škola fudbala Niš · Upis mladih u FK Železničar',
+                'description' => 'Upis mladih u školu fudbala FK Železničar Niš, za decu od 5 do 19 godina. Licencirani treneri, treninzi tri puta nedeljno, prvi trening besplatan. Prijavite dete online.',
+                'keywords' => 'škola fudbala Niš, upis mladih u Nišu, upis dece u fudbal Niš, omladinska škola fudbala Niš, treninzi fudbala za decu Niš, fudbal za decu Niš, FK Železničar Niš omladinci',
+            ],
+            'support' => [
+                'title' => 'Podrži klub · Donacija FK Železničar Niš',
+                'description' => 'Podržite FK Železničar Niš uplatom na račun kluba. Svaka donacija ide u rad škole fudbala, opremu i takmičenja fudbalskog kluba iz Niša.',
+            ],
+            'contact' => [
+                'title' => 'Kontakt · FK Železničar Niš',
+                'description' => 'Kontakt FK Železničar Niš: telefon, imejl, adresa i lokacija stadiona. Pitanja o upisu u školu fudbala, saradnji ili prvom timu.',
+            ],
+            'news' => [
+                'title' => 'Vesti · FK Železničar Niš',
+                'description' => 'Najnovije vesti iz FK Železničar Niš: prvi tim, škola fudbala, utakmice, rezultati i događaji iz kluba.',
+            ],
+            'video' => [
+                'title' => 'Video · Železničar TV',
+                'description' => 'Video snimci FK Železničar Niš: utakmice prvog tima, treninzi škole fudbala i događaji iz kluba.',
+            ],
+        ],
     ],
 
     'nav' => [

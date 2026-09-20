@@ -10,9 +10,10 @@ use App\Http\Controllers\VideoController;
 use App\Http\Controllers\YouthController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', fn () => redirect(app()->getLocale()));
+Route::get('/', fn () => redirect(app()->getLocale(), 301));
 
 Route::get('/sitemap.xml', [SitemapController::class, 'index'])->name('sitemap');
+Route::get('/robots.txt', [SitemapController::class, 'robots'])->name('robots');
 
 // News stays unprefixed for stable SEO URLs; chrome renders in the default locale.
 Route::get('/vesti', [NewsController::class, 'index'])->name('news.index');

@@ -4,7 +4,7 @@
     $years = range(now()->year - 4, now()->year - 20);
 @endphp
 
-<x-site-layout :title="__('club.youth.page_title')" :description="$site['youth_intro'] ?? __('club.youth.subtitle')">
+<x-site-layout :title="__('club.meta.pages.youth.title')" :description="__('club.meta.pages.youth.description')" :keywords="__('club.meta.pages.youth.keywords')">
 
     <x-flash key="enrol_success" :message="__('club.youth.form.success')" />
 

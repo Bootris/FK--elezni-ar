@@ -66,7 +66,6 @@ class DatabaseSeeder extends Seeder
             'phone' => '+381 18 000 000',
             'working_hours' => 'Pon–Pet · 10–18h',
 
-            'seo_description' => 'FK Železničar Niš, zvanični sajt kluba. Vesti, prvi tim, omladinska škola, upis novih igrača i podrška klubu.',
         ];
 
         foreach ($defaults as $key => $value) {
