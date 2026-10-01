@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Concerns\HasSortOrder;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -9,6 +10,8 @@ use Illuminate\Support\Str;
 
 class StaffMember extends Model
 {
+    use HasSortOrder;
+
     public const DEPARTMENTS = [
         'first_team' => 'Prvi tim',
         'youth' => 'Omladinska škola',

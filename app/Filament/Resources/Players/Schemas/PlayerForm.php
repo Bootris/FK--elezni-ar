@@ -97,16 +97,21 @@ class PlayerForm
                             ->disk('public')
                             ->directory('players')
                             ->imageEditor()
+                            ->automaticallyResizeImagesMode('contain')
+                            ->automaticallyResizeImagesToWidth('1600')
+                            ->automaticallyResizeImagesToHeight('1600')
+                            ->automaticallyUpscaleImagesWhenResizing(false)
                             ->maxSize(4096)
-                            ->helperText('Najbolje portret 3:4 na jednobojnoj pozadini.'),
+                            ->helperText('Najbolje portret 3:4 na jednobojnoj pozadini. Do 4 MB; veće se automatski smanjuju na 1600 px.'),
                         Toggle::make('is_captain')->label('Kapiten'),
                         Toggle::make('from_academy')
                             ->label('Iz omladinske škole')
                             ->helperText('Prikazuje oznaku „Naš klinac“ na kartici igrača.'),
                         TextInput::make('sort_order')
                             ->label('Redosled')
-                            ->numeric()
-                            ->default(0),
+                            ->integer()
+                            ->default(0)
+                            ->helperText('Manji broj ide prvi. Prazno = 0.'),
                         Toggle::make('visible')
                             ->label('Prikaži na sajtu')
                             ->default(true),

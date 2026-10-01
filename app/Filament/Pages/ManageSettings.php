@@ -75,6 +75,8 @@ class ManageSettings extends Page
                                             ->image()
                                             ->disk('public')
                                             ->directory('branding')
+                                            ->maxSize(2048)
+                                            ->helperText('PNG ili SVG sa providnom pozadinom, do 2 MB.')
                                             ->columnSpanFull(),
                                     ]),
                             ]),
@@ -94,7 +96,12 @@ class ManageSettings extends Page
                                             ->image()
                                             ->disk('public')
                                             ->directory('branding')
-                                            ->helperText('Široka fotografija (npr. stadion, navijači). Tamni se automatski.')
+                                            ->automaticallyResizeImagesMode('contain')
+                                            ->automaticallyResizeImagesToWidth('2400')
+                                            ->automaticallyResizeImagesToHeight('2400')
+                                            ->automaticallyUpscaleImagesWhenResizing(false)
+                                            ->maxSize(6144)
+                                            ->helperText('Široka fotografija (npr. stadion, navijači). Tamni se automatski. Do 6 MB; veće se automatski smanjuju na 2400 px.')
                                             ->columnSpanFull(),
                                     ]),
                             ]),

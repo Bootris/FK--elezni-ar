@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Filament\Pages\ManageLiveStream;
 use App\Filament\Pages\ManageSettings;
+use App\Filament\Resources\Photos\Pages\CreatePhoto;
 use App\Models\Category;
 use App\Models\ContactMessage;
 use App\Models\FootballMatch;
@@ -17,6 +18,8 @@ use App\Models\User;
 use App\Models\YouthApplication;
 use App\Models\YouthSelection;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 use Livewire\Livewire;
 use Tests\TestCase;
 
@@ -82,6 +85,32 @@ class AdminPanelTest extends TestCase
             '/admin/manage-live-stream',
         ] as $url) {
             $this->actingAs($admin)->get($url)->assertOk();
+        }
+    }
+
+    public function test_photo_can_be_created_with_an_emptied_sort_order(): void
+    {
+        Storage::fake('public');
+        $this->actingAs($this->admin());
+
+        // An editor clearing "Redosled" used to send null into a NOT NULL column and 500.
+        Livewire::test(CreatePhoto::class)
+            ->fillForm([
+                'image' => UploadedFile::fake()->image('kadeti.jpg', 1200, 800),
+                'title' => 'Kadetska selekcija',
+                'album' => 'club',
+                'sort_order' => null,
+            ])
+            ->call('create')
+            ->assertHasNoFormErrors();
+
+        $photo = Photo::sole();
+        $this->assertSame(0, $photo->sort_order);
+        $this->assertStringStartsWith('gallery/', $photo->image);
+        Storage::disk('public')->assertExists($photo->image);
+
+        foreach ([Player::class, StaffMember::class, YouthSelection::class] as $model) {
+            $this->assertSame(0, (new $model(['sort_order' => '']))->sort_order, $model);
         }
     }
 

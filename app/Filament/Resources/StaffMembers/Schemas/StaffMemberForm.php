@@ -74,10 +74,15 @@ class StaffMemberForm
                             ->disk('public')
                             ->directory('staff')
                             ->imageEditor()
-                            ->maxSize(4096),
+                            ->automaticallyResizeImagesMode('contain')
+                            ->automaticallyResizeImagesToWidth('1600')
+                            ->automaticallyResizeImagesToHeight('1600')
+                            ->automaticallyUpscaleImagesWhenResizing(false)
+                            ->maxSize(4096)
+                            ->helperText('JPG, PNG ili WebP do 4 MB; veće se automatski smanjuju na 1600 px.'),
                         TextInput::make('email')->label('Imejl')->email()->maxLength(255),
                         TextInput::make('phone')->label('Telefon')->tel()->maxLength(255),
-                        TextInput::make('sort_order')->label('Redosled')->numeric()->default(0),
+                        TextInput::make('sort_order')->label('Redosled')->integer()->default(0)->helperText('Manji broj ide prvi. Prazno = 0.'),
                         Toggle::make('visible')->label('Prikaži na sajtu')->default(true),
                     ]),
             ]);

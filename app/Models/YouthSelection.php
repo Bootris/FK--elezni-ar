@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Concerns\HasSortOrder;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -9,6 +10,8 @@ use Illuminate\Support\Str;
 
 class YouthSelection extends Model
 {
+    use HasSortOrder;
+
     protected $fillable = [
         'name', 'slug', 'birth_years', 'description', 'training_schedule', 'training_venue',
         'photo', 'accepting_applications', 'sort_order', 'visible',

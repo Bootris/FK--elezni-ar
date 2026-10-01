@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Concerns\HasSortOrder;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
@@ -9,6 +10,8 @@ use Illuminate\Support\Str;
 
 class Player extends Model
 {
+    use HasSortOrder;
+
     public const POSITIONS = [
         'GK' => 'Golman',
         'DF' => 'Odbrana',

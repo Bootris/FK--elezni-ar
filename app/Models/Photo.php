@@ -2,11 +2,14 @@
 
 namespace App\Models;
 
+use App\Models\Concerns\HasSortOrder;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
 class Photo extends Model
 {
+    use HasSortOrder;
+
     public const ALBUMS = [
         'first_team' => 'Prvi tim',
         'youth' => 'Omladinci',

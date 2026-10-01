@@ -93,8 +93,12 @@ class PostForm
                             ->disk('public')
                             ->directory('posts')
                             ->imageEditor()
+                            ->automaticallyResizeImagesMode('contain')
+                            ->automaticallyResizeImagesToWidth('2400')
+                            ->automaticallyResizeImagesToHeight('2400')
+                            ->automaticallyUpscaleImagesWhenResizing(false)
                             ->maxSize(4096)
-                            ->helperText('Prikazuje se na vrhu vesti i na karticama.'),
+                            ->helperText('Prikazuje se na vrhu vesti i na karticama. JPG, PNG ili WebP do 4 MB; veće se automatski smanjuju na 2400 px.'),
                         TextInput::make('video_url')
                             ->label('Video (YouTube / Vimeo link)')
                             ->rule(new EmbeddableVideoUrl())
