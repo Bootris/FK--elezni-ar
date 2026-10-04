@@ -3,6 +3,7 @@
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\FirstTeamController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\LegalController;
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\SitemapController;
 use App\Http\Controllers\SupportController;
@@ -40,4 +41,6 @@ Route::group([
     Route::get('/omladinci', [YouthController::class, 'index'])->name('youth.index');
     Route::get('/podrzi-klub', [SupportController::class, 'index'])->name('support.index');
     Route::get('/kontakt', [ContactController::class, 'index'])->name('contact.index');
+    Route::get('/politika-privatnosti', [LegalController::class, 'privacy'])->name('legal.privacy');
+    Route::get('/uslovi-koriscenja', [LegalController::class, 'terms'])->name('legal.terms');
 });

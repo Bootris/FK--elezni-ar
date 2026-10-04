@@ -225,7 +225,7 @@
                         <div class="sm:col-span-2">
                             <label class="flex items-start gap-3 text-sm text-ink-600">
                                 <input type="checkbox" name="consent" value="1" required class="mt-1 h-4 w-4 accent-red-500" @checked(old('consent'))>
-                                <span>{{ __('club.youth.form.consent') }}</span>
+                                <span>{{ __('club.youth.form.consent') }} <a href="{{ route('legal.privacy', app()->getLocale()) }}" target="_blank" class="font-semibold text-red-600 underline underline-offset-2">{{ __('club.footer.privacy') }}</a></span>
                             </label>
                             @error('consent')<p class="mt-1 text-xs text-red-600">{{ $message }}</p>@enderror
                         </div>

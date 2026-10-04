@@ -18,7 +18,7 @@ class SitemapController extends Controller
 
         foreach (['sr', 'en'] as $locale) {
             $xml .= $this->url("{$baseUrl}/{$locale}", $contentUpdated, 'weekly', '1.0', $this->alternates($baseUrl, ''));
-            foreach (['omladinci' => '0.9', 'prvi-tim' => '0.8', 'podrzi-klub' => '0.7', 'kontakt' => '0.7'] as $page => $priority) {
+            foreach (['omladinci' => '0.9', 'prvi-tim' => '0.8', 'podrzi-klub' => '0.7', 'kontakt' => '0.7', 'politika-privatnosti' => '0.3', 'uslovi-koriscenja' => '0.3'] as $page => $priority) {
                 $xml .= $this->url("{$baseUrl}/{$locale}/{$page}", $contentUpdated, 'weekly', $priority, $this->alternates($baseUrl, "/{$page}"));
             }
         }

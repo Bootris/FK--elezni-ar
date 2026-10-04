@@ -55,6 +55,7 @@
                         @error('message')<p class="mt-1 text-xs text-red-600">{{ $message }}</p>@enderror
                     </div>
                     <div class="sm:col-span-2">
+                        <p class="mb-4 text-xs text-ink-600">{{ __('club.contact.form.privacy_note') }} <a href="{{ route('legal.privacy', app()->getLocale()) }}" class="font-semibold text-red-600 underline underline-offset-2">{{ __('club.footer.privacy') }}</a></p>
                         <button type="submit" class="btn btn-red w-full sm:w-auto">{{ __('club.contact.form.submit') }}</button>
                     </div>
                 </form>

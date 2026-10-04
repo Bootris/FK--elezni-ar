@@ -355,6 +355,10 @@
 
             <div class="mt-14 flex flex-col items-start justify-between gap-2 border-t border-white/10 pt-6 text-xs text-navy-300 sm:flex-row sm:items-center">
                 <p>© {{ date('Y') }} {{ $siteName }}. {{ __('club.footer.rights') }}</p>
+                <nav class="flex flex-wrap gap-x-5 gap-y-1" aria-label="{{ __('club.footer.legal') }}">
+                    <a href="{{ route('legal.privacy', $locale) }}" class="transition hover:text-gold-400">{{ __('club.footer.privacy') }}</a>
+                    <a href="{{ route('legal.terms', $locale) }}" class="transition hover:text-gold-400">{{ __('club.footer.terms') }}</a>
+                </nav>
                 <p>{{ $tagline }}</p>
             </div>
         </div>

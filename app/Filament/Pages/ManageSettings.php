@@ -70,6 +70,10 @@ class ManageSettings extends Page
                                         TextInput::make('stadium')->label('Stadion'),
                                         TextInput::make('season')->label('Tekuća sezona')->helperText('Npr. 2025/26.'),
                                         TextInput::make('league_name')->label('Liga / takmičenje prvog tima'),
+                                        TextInput::make('legal_name')->label('Pravni naziv (za pravne stranice)')
+                                            ->helperText('Naziv pravnog lica koje je rukovalac podacima. Prazno = pun naziv kluba.'),
+                                        TextInput::make('legal_id')->label('PIB / matični broj')
+                                            ->helperText('Prikazuje se u Politici privatnosti i Uslovima korišćenja (Zakon o elektronskoj trgovini traži podatke o pružaocu usluge).'),
                                         FileUpload::make('logo')
                                             ->label('Grb (zamena za podrazumevani)')
                                             ->image()
