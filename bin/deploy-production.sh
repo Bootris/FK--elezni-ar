@@ -8,6 +8,10 @@ APP="$(cd "$(dirname "$0")/.." && pwd)"
 cd "$APP"
 export COMPOSER_ALLOW_SUPERUSER=1 NODE_OPTIONS=--max-old-space-size=1536
 
+# PHP2Shell (CVE-2026-109618 / CVE-2026-109619): nadogradi PHP, upiši ublažavanje i
+# zaustavi deploy ako php-fpm nije zakrpljen. Detalji u bin/php2shell-guard.sh.
+bash "$APP/bin/php2shell-guard.sh"
+
 php artisan down --render="errors::503" --retry=15 || true
 trap 'cd "$APP" && php artisan up || true' EXIT
 
